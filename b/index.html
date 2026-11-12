@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digerati Experts · Arizona IT that's locked down, looked after, and priced in the open</title>
+<meta name="description" content="Digerati Experts (DE) is an Arizona managed IT and security provider in Chandler. ProActive Ecosystem levels with published pricing. Book a 30-minute Fit Call.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23120c18'/><circle cx='16' cy='16' r='8' fill='none' stroke='%23D3126A' stroke-width='3'/></svg>">
+<link rel="preload" href="assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Space Grotesk"; src: url(assets/fonts/space-grotesk.woff2) format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Geist"; src: url(assets/fonts/geist.woff2) format("woff2"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --bg: #0e0913; --bg-2: #160f1e; --card: #1d1527; --card-2: #251b31;
+  --ink: #f6f0f4; --soft: #c5b8c9; --mute: #9d8fa3;
+  --mag: #d3126a; --mag-hi: #ff6aa8; --mag-deep: #a30e52;
+  /* scene accents: one per act, all from the Arizona palette; the CTA stays magenta */
+  --sand: #e8b65a; --sage: #9fc3a4; --dusk: #b9a2ff;
+  --paper: #ebe5dd; --paper-ink: #1d1720; --paper-soft: #574c55;
+  --display: "Space Grotesk", system-ui, sans-serif;
+  --text: "Geist", system-ui, sans-serif;
+  --gut: clamp(1.25rem, 5vw, 5rem);
+  --maxw: 78rem;
+  --ease: cubic-bezier(.23, 1, .32, 1);
+  --r: 20px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.6 var(--text); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+::selection { background: var(--mag); color: #fff; }
+:focus-visible { outline: 2px solid var(--mag-hi); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.03em; line-height: 1.0; margin: 0; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gut); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.grain { position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: .05;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+
+/* ---------- the button (one label, everywhere) ---------- */
+.btn { display: inline-flex; align-items: center; gap: .6rem; min-height: 3.25rem; padding: 0 1.5rem; border-radius: 999px;
+  background: var(--mag); color: #fff; text-decoration: none; white-space: nowrap; font: 600 1rem/1 var(--display);
+  box-shadow: 0 10px 24px -10px rgba(211,18,106,.7), inset 0 1px 0 rgba(255,255,255,.22);
+  transition: transform 160ms var(--ease), background-color 160ms var(--ease); }
+.btn svg { width: 1rem; height: 1rem; transition: transform 200ms var(--ease); }
+@media (hover: hover) and (pointer: fine) { .btn:hover { background: #e01874; } .btn:hover svg { transform: translateX(3px); } }
+.btn:active { transform: scale(.97); }
+.btn:focus-visible { outline-color: #fff; }
+.btn--sm { min-height: 2.5rem; padding: 0 1rem; font-size: .875rem; }
+.btn--lg { min-height: 3.75rem; padding: 0 2rem; font-size: 1.125rem; }
+
+/* ---------- nav: a bar that folds into a floating pill ---------- */
+.nav { position: fixed; z-index: 80; top: 0; left: 0; right: 0; display: flex; justify-content: center; pointer-events: none; padding-top: 1rem; }
+.nav__inner { pointer-events: auto; display: flex; align-items: center; gap: 1.5rem; width: min(100% - 2 * var(--gut), var(--maxw));
+  padding: .5rem .5rem .5rem 1.1rem; border-radius: 999px; border: 1px solid transparent;
+  transition: width 420ms var(--ease), background-color 300ms var(--ease), border-color 300ms var(--ease), box-shadow 300ms var(--ease); }
+.nav.is-pill .nav__inner { width: min(100% - 2rem, 40rem); background: rgba(24, 16, 32, .78); border-color: rgba(255,255,255,.08);
+  box-shadow: 0 14px 32px -16px rgba(0,0,0,.8); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); }
+.mark { display: flex; align-items: center; gap: .55rem; text-decoration: none; font: 600 1rem/1 var(--display); letter-spacing: -.01em; white-space: nowrap; }
+.mark i { width: 1.15rem; height: 1.15rem; border-radius: 50%; border: 3px solid var(--mag); display: block; }
+.nav__links { display: flex; gap: 1.25rem; margin-left: auto; font-size: .9rem; color: var(--soft); }
+.nav__links a { text-decoration: none; }
+.nav__links a:hover { color: var(--ink); }
+@media (max-width: 760px) { .nav__links { display: none; } .nav__inner { gap: .75rem; } .nav .btn { margin-left: auto; } }
+
+/* ---------- scene machinery: a tall section with a sticky frame ---------- */
+.scene { position: relative; }
+.scene__frame { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; align-items: center; }
+.eyebrow { display: inline-flex; align-items: center; gap: .55rem; font: 600 .8rem/1 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--accent, var(--mag-hi)); }
+.eyebrow::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: currentColor; }
+.lede { color: var(--soft); font-size: clamp(1.02rem, .95rem + .3vw, 1.2rem); max-width: 34rem; }
+.steps { display: flex; gap: .4rem; margin-top: 1.6rem; }
+.steps span { height: 3px; width: 2.2rem; border-radius: 3px; background: rgba(255,255,255,.14); overflow: hidden; position: relative; }
+.steps span::after { content: ""; position: absolute; inset: 0; background: var(--accent, var(--mag)); transform-origin: 0 50%; transform: scaleX(var(--f, 0)); }
+
+/* ---------- 1 · hero (bookend) ---------- */
+.hero { min-height: 100vh; min-height: 100svh; position: relative; padding: 7.5rem 0 3rem; isolation: isolate;
+  background: radial-gradient(90% 60% at 70% 110%, rgba(211,18,106,.34), transparent 60%), radial-gradient(60% 50% at 10% 0%, rgba(185,162,255,.10), transparent 60%), var(--bg); }
+.topo { position: absolute; inset: 0; z-index: -1; opacity: .5; pointer-events: none; }
+.topo path { fill: none; stroke: rgba(246,240,244,.07); stroke-width: 1; }
+.hero h1 { font-size: clamp(2.6rem, 1.2rem + 5.4vw, 6.2rem); letter-spacing: -0.045em; line-height: .96; max-width: 14.5em; }
+.hero h1 .ph { position: relative; white-space: nowrap; }
+.hero h1 .ph::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.02em; height: .07em; border-radius: .07em; background: var(--mag); transform-origin: 0 50%; transform: scaleX(0); animation: draw 900ms var(--ease) forwards; }
+.hero h1 .ph:nth-of-type(1)::after { animation-delay: 350ms; }
+.hero h1 .ph:nth-of-type(2)::after { animation-delay: 750ms; }
+.hero h1 .ph:nth-of-type(3)::after { animation-delay: 1150ms; }
+.hero h1 .ph:nth-of-type(3) { color: var(--mag-hi); }
+@keyframes draw { to { transform: scaleX(1); } }
+.hero__row { display: flex; align-items: center; gap: 1.5rem 2rem; flex-wrap: wrap; margin-top: 2rem; }
+.hero__row .lede { max-width: 30rem; }
+.panel { position: relative; margin-top: 3rem; border-radius: 28px; overflow: hidden; aspect-ratio: 16 / 7; min-height: 20rem;
+  box-shadow: 0 40px 80px -40px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06); transform: translateY(calc(var(--hp, 0) * -40px)); }
+.panel > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; transform: scale(calc(1.08 - var(--hp, 0) * .06)); }
+.panel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,9,19,0) 30%, rgba(14,9,19,.65) 100%); }
+.panel .topo { z-index: 1; opacity: .9; }
+.panel .topo path { stroke: rgba(255,255,255,.08); }
+/* the honest mock: the actual Fit Call booking, as a card */
+.book { position: absolute; z-index: 2; right: clamp(1rem, 4vw, 3rem); bottom: clamp(1rem, 4vw, 2.5rem); width: min(22rem, calc(100% - 2rem));
+  background: rgba(29,21,39,.9); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; padding: 1.1rem 1.2rem 1.2rem;
+  box-shadow: 0 24px 48px -24px rgba(0,0,0,.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.book__top { display: flex; justify-content: space-between; align-items: center; font-size: .78rem; color: var(--mute); }
+.book__top b { font-weight: 500; color: var(--soft); }
+.book h2 { font-size: 1.35rem; margin: .7rem 0 .25rem; letter-spacing: -.02em; }
+.book p { font-size: .9rem; color: var(--soft); }
+.book ul { list-style: none; padding: 0; margin: .9rem 0 1rem; display: grid; gap: .35rem; font-size: .85rem; color: var(--soft); }
+.book li { display: flex; gap: .55rem; align-items: baseline; }
+.book li::before { content: ""; width: .4rem; height: .4rem; border-radius: 50%; background: var(--mag); flex: none; transform: translateY(-.1rem); }
+.book .btn { width: 100%; justify-content: center; }
+
+/* ---------- 2 · the usual way ---------- */
+.s-usual { height: 210vh; --accent: var(--sand); background: var(--bg); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; width: 100%; }
+.s-usual h2, .s-price h2, .s-desk h2 { font-size: clamp(2.2rem, 1.3rem + 3.2vw, 4.2rem); margin: 1.1rem 0 1.2rem; }
+.contacts { position: relative; justify-self: center; width: min(100%, 26rem); background: var(--card); border-radius: 22px; padding: 1.2rem; border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 40px 70px -40px rgba(0,0,0,.9); transform: rotate(calc(var(--p, 0) * 3deg)); }
+.contacts__head { display: flex; justify-content: space-between; align-items: center; font: 600 .95rem/1 var(--display); padding: .3rem .3rem 1rem; }
+.contacts__head span { font: 500 .75rem/1 var(--text); color: var(--mute); }
+.contacts ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.contacts li { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: .8rem; align-items: center; padding: .7rem .75rem; border-radius: 14px; background: var(--card-2);
+  transition: opacity 300ms var(--ease), transform 400ms var(--ease); }
+.contacts li .av { width: 2.2rem; height: 2.2rem; border-radius: 50%; display: grid; place-items: center; background: rgba(232,182,90,.14); color: var(--sand); font: 600 .8rem/1 var(--display); }
+.contacts li b { display: block; font: 500 .95rem/1.2 var(--display); }
+.contacts li small { color: var(--mute); font-size: .78rem; }
+.contacts li .q { font: 600 .75rem/1 var(--display); color: var(--sand); padding: .35rem .55rem; border-radius: 999px; background: rgba(232,182,90,.12); opacity: 0; transform: scale(.9); transition: opacity 240ms var(--ease), transform 240ms var(--ease); }
+.contacts li.is-q .q { opacity: 1; transform: none; }
+.contacts li.is-gone { opacity: .28; transform: translateX(10px); }
+.sticky { position: absolute; top: -1.4rem; right: -1rem; width: 8.5rem; padding: .75rem .85rem .9rem; background: #ece0ae; color: #3b3320; font: 500 .9rem/1.3 var(--display);
+  transform: rotate(6deg); box-shadow: 0 16px 24px -14px rgba(0,0,0,.6); }
+.s-usual .tail { margin-top: 1.4rem; font: 500 1.15rem/1.35 var(--display); color: var(--ink); opacity: var(--tail, 0); transform: translateY(calc((1 - var(--tail, 0)) * 10px)); }
+.s-usual .tail span { color: var(--mag-hi); }
+
+/* ---------- 3 · PEAK: coverage rings ---------- */
+.s-rings { height: 330vh; --accent: var(--mag-hi);
+  background: radial-gradient(70% 70% at 70% 50%, rgba(211,18,106,.14), transparent 70%), var(--bg); }
+.rings-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; width: 100%; }
+.s-rings h2 { font-size: clamp(2.2rem, 1.3rem + 3vw, 4rem); margin: 1.1rem 0 1rem; }
+.lvl { position: relative; min-height: 9.5rem; margin-top: 1.4rem; }
+.lvl article { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(12px); transition: opacity 360ms var(--ease), transform 360ms var(--ease); }
+.lvl article.is-on { opacity: 1; transform: none; }
+.lvl h3 { font-size: 1.5rem; letter-spacing: -.02em; }
+.lvl h3 small { font: 500 .78rem/1 var(--text); color: var(--mag-hi); margin-left: .5rem; letter-spacing: .02em; vertical-align: middle; }
+.lvl p { margin-top: .5rem; color: var(--soft); max-width: 30rem; }
+.rail { display: grid; grid-template-columns: repeat(4, 1fr); gap: .4rem; margin-top: .5rem; max-width: 26rem; }
+.rail button { all: unset; cursor: pointer; font: 500 .78rem/1 var(--display); color: var(--mute); padding-top: .7rem; position: relative; }
+.rail button::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 3px; background: rgba(255,255,255,.14); }
+.rail button::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 3px; background: var(--mag); transform-origin: 0 50%; transform: scaleX(var(--f, 0)); }
+.rail button.is-on { color: var(--ink); }
+.rail button:focus-visible { outline: 2px solid var(--mag-hi); outline-offset: 4px; }
+.orbit { position: relative; width: min(100%, 40rem); aspect-ratio: 1; justify-self: center; }
+.orbit svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.orbit .ring { fill: none; stroke: rgba(255,255,255,.1); stroke-width: 1; }
+.orbit .draw { fill: none; stroke: var(--mag); stroke-width: 1.6; stroke-linecap: round; }
+.core { position: absolute; left: 50%; top: 50%; width: 24%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; display: grid; place-items: center; text-align: center;
+  background: radial-gradient(circle at 35% 30%, #2d2039, #170f1f); box-shadow: 0 24px 50px -20px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.08); }
+.core b { font: 600 clamp(.85rem, .6rem + .8vw, 1.2rem)/1.1 var(--display); letter-spacing: -.01em; }
+.core small { display: block; font-size: .72rem; color: var(--mute); margin-top: .25rem; }
+.chip { position: absolute; left: 0; top: 0; white-space: nowrap; font: 500 .8rem/1 var(--display); padding: .45rem .65rem; border-radius: 999px;
+  background: var(--card-2); color: var(--ink); border: 1px solid rgba(255,255,255,.08); box-shadow: 0 10px 20px -12px rgba(0,0,0,.9);
+  will-change: transform, opacity; }
+.chip::before { content: ""; display: inline-block; width: .4rem; height: .4rem; border-radius: 50%; background: var(--mag); margin-right: .45rem; vertical-align: .08em; }
+.chip.is-dot { padding: 0; width: .55rem; height: .55rem; font-size: 0; border: 0; background: var(--mag); box-shadow: 0 0 0 3px rgba(211,18,106,.18); }
+.chip.is-dot::before { display: none; }
+
+/* ---------- 4 · priced in the open (light ground: the only one) ---------- */
+.s-price { height: 180vh; --accent: var(--mag-deep); color: var(--paper-ink);
+  background: url(assets/ground-stucco.webp) center / 1100px auto, var(--paper); background-blend-mode: multiply; }
+.s-price .lede { color: var(--paper-soft); }
+.s-price a.textlink { color: var(--paper-ink); }
+.flow-card { justify-self: center; width: min(100%, 28rem); background: #fbf8f3; border-radius: 22px; padding: 1.4rem; box-shadow: 0 40px 70px -40px rgba(60,30,40,.55), 0 1px 0 rgba(0,0,0,.04); }
+.flow-card h3 { font-size: 1.05rem; letter-spacing: -.01em; display: flex; justify-content: space-between; align-items: baseline; }
+.flow-card h3 span { font: 500 .75rem/1 var(--text); color: var(--paper-soft); }
+.flow-steps { position: relative; margin-top: 1.1rem; }
+.flow-card ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.flow-card li { display: grid; grid-template-columns: 2rem 1fr; gap: .9rem; padding: .85rem 0; position: relative; }
+.flow-card li .n { width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; font: 600 .85rem/1 var(--display); background: #ece5dc; color: var(--paper-soft); transition: background-color 300ms var(--ease), color 300ms var(--ease); position: relative; z-index: 1; }
+.flow-card li.is-done .n { background: var(--mag-deep); color: #fff; }
+.flow-card li b { display: block; font: 600 1rem/1.25 var(--display); }
+.flow-card li small { display: block; font-size: .85rem; color: var(--paper-soft); margin-top: .15rem; }
+.flow-card .line { position: absolute; left: 1rem; top: 1.85rem; bottom: 1.85rem; width: 2px; background: #e4dcd2; translate: -1px 0; }
+.flow-card .line::after { content: ""; position: absolute; inset: 0; background: var(--mag-deep); transform-origin: 50% 0; transform: scaleY(var(--fl, 0)); }
+.flow-card img { margin-top: .8rem; border-radius: 14px; width: 100%; height: 6.5rem; object-fit: cover; }
+.textlink { font-weight: 600; text-decoration: underline; text-decoration-color: var(--mag); text-decoration-thickness: 2px; text-underline-offset: .3em; }
+.s-price .grid2 > div:first-child { order: 2; }
+
+/* ---------- 5 · service desk vs help desk ---------- */
+.s-desk { height: 170vh; --accent: var(--dusk); background: radial-gradient(60% 60% at 25% 50%, rgba(185,162,255,.10), transparent 70%), var(--bg); }
+.desk { justify-self: center; width: min(100%, 30rem); background: var(--card); border-radius: 22px; padding: .5rem; border: 1px solid rgba(255,255,255,.06); box-shadow: 0 40px 70px -40px rgba(0,0,0,.9); }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: .25rem; padding: .25rem; border-radius: 16px; background: var(--bg-2); position: relative; }
+.seg::before { content: ""; position: absolute; top: .25rem; bottom: .25rem; left: .25rem; width: calc(50% - .375rem); border-radius: 12px; background: var(--card-2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07); transform: translateX(calc(var(--side, 0) * (100% + .25rem))); transition: transform 380ms var(--ease); }
+.seg button { all: unset; cursor: pointer; position: relative; z-index: 1; text-align: center; padding: .8rem; font: 600 .95rem/1 var(--display); color: var(--mute); border-radius: 12px; transition: color 200ms var(--ease); }
+.seg button[aria-selected="true"] { color: var(--ink); }
+.seg button:focus-visible { outline: 2px solid var(--dusk); outline-offset: 2px; }
+.desk__body { position: relative; min-height: 15.5rem; }
+.desk__pane { position: absolute; inset: 0; padding: 1.4rem 1.2rem 1.2rem; opacity: 0; transform: translateY(8px); transition: opacity 320ms var(--ease), transform 320ms var(--ease); pointer-events: none; }
+.desk__pane.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.desk__pane .tagline { font: 600 .78rem/1 var(--display); letter-spacing: .08em; text-transform: uppercase; color: var(--dusk); }
+.desk__pane h3 { font-size: 1.6rem; margin: .6rem 0 .6rem; letter-spacing: -.02em; }
+.desk__pane p { color: var(--soft); font-size: .95rem; }
+.desk__pane ul { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: .45rem; font-size: .9rem; color: var(--soft); }
+.desk__pane li::before { content: ""; display: inline-block; width: .4rem; height: .4rem; border-radius: 50%; background: var(--dusk); margin-right: .6rem; vertical-align: .1em; }
+
+/* ---------- 6 · who DE looks after (flow, drifts sideways) ---------- */
+.s-who { padding: clamp(5rem, 10vw, 9rem) 0 clamp(4rem, 8vw, 7rem); background: var(--bg); overflow: hidden; --accent: var(--sage); }
+.s-who h2 { font-size: clamp(2rem, 1.3rem + 2.6vw, 3.6rem); margin-top: 1rem; max-width: 16ch; }
+.s-who .lede { margin-top: 1rem; }
+.strip { display: flex; gap: 1rem; margin-top: 2.6rem; padding-left: var(--gut); transform: translateX(calc(var(--wp, 0) * -30%)); will-change: transform; }
+.strip figure { margin: 0; flex: 0 0 clamp(12rem, 20vw, 17rem); }
+.strip img { width: 100%; height: auto; aspect-ratio: 640 / 794; object-fit: cover; border-radius: 18px; box-shadow: 0 30px 50px -30px rgba(0,0,0,.9); }
+.strip figcaption { margin-top: .7rem; font: 500 .95rem/1.2 var(--display); }
+
+/* ---------- 7 · faq ---------- */
+.s-faq { padding: clamp(4rem, 8vw, 7rem) 0; background: var(--bg); }
+.faq-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 6vw, 6rem); }
+.s-faq h2 { font-size: clamp(2rem, 1.3rem + 2.6vw, 3.4rem); }
+.faq details { border-top: 1px solid rgba(255,255,255,.1); }
+.faq details:last-child { border-bottom: 1px solid rgba(255,255,255,.1); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.3rem 0; font: 500 1.15rem/1.3 var(--display); letter-spacing: -.01em; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary i { flex: none; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--card-2); position: relative; transition: transform 300ms var(--ease), background-color 200ms; }
+.faq summary i::before, .faq summary i::after { content: ""; position: absolute; left: 50%; top: 50%; width: .7rem; height: 2px; background: var(--ink); translate: -50% -50%; border-radius: 2px; }
+.faq summary i::after { rotate: 90deg; transition: rotate 300ms var(--ease); }
+.faq details[open] summary i { background: var(--mag); }
+.faq details[open] summary i::after { rotate: 0deg; }
+.faq details p { padding: 0 0 1.4rem; color: var(--soft); max-width: 56ch; }
+
+/* ---------- 8 · close (bookend) ---------- */
+.s-close { position: relative; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; isolation: isolate; overflow: hidden; padding: 7rem 0 2rem;
+  background: radial-gradient(90% 70% at 30% -10%, rgba(211,18,106,.30), transparent 60%), var(--bg); }
+.s-close .shade { position: absolute; inset: 0; z-index: -1; background: url(assets/close-saguaro.webp) 70% 50% / cover no-repeat; opacity: .55;
+  -webkit-mask-image: linear-gradient(90deg, transparent 10%, #000 70%); mask-image: linear-gradient(90deg, transparent 10%, #000 70%); }
+.s-close h2 { font-size: clamp(2.6rem, 1.3rem + 5vw, 6rem); letter-spacing: -.045em; max-width: 15ch; }
+.s-close .lede { margin: 1.4rem 0 2.2rem; }
+.close-cta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; position: relative; }
+.close-cta .sticky { position: relative; top: auto; right: auto; transform: rotate(-5deg) translateY(var(--sy, 30px)); opacity: var(--so, 0); transition: transform 600ms var(--ease), opacity 400ms var(--ease); }
+.foot { margin-top: auto; padding-top: 4rem; display: flex; flex-wrap: wrap; gap: .75rem 2rem; justify-content: space-between; font-size: .85rem; color: var(--mute); }
+.foot nav { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.foot a { color: var(--soft); text-decoration: none; }
+.foot a:hover { color: var(--ink); }
+
+/* ---------- reveal-on-entry for ordinary content ---------- */
+.rv { opacity: 0; transform: translateY(14px); transition: opacity 620ms var(--ease), transform 620ms var(--ease); }
+.rv.is-in { opacity: 1; transform: none; }
+
+/* ---------- phone ---------- */
+@media (max-width: 860px) {
+  .grid2, .rings-grid, .faq-grid { grid-template-columns: 1fr; gap: 1.6rem; }
+  .scene__frame { align-items: flex-start; padding-top: 5.5rem; }
+  .s-usual h2, .s-price h2, .s-desk h2, .s-rings h2 { font-size: 2.05rem; margin: .8rem 0 .7rem; }
+  .lede { font-size: 1rem; }
+  .contacts { width: 100%; padding: .9rem; }
+  .contacts li { padding: .5rem .6rem; }
+  .contacts li small { display: none; }
+  .sticky { width: 7rem; font-size: .8rem; right: -.25rem; top: -1rem; }
+  .s-price .grid2 > div:first-child { order: 0; }
+  .flow-card img { display: none; }
+  .flow-card { padding: 1.1rem; }
+  .flow-card li { padding: .6rem 0; }
+  .orbit { width: min(74vw, 19rem); order: -1; }
+  .lvl { min-height: 8rem; margin-top: .6rem; }
+  .lvl h3 { font-size: 1.25rem; }
+  .lvl p { font-size: .92rem; }
+  .s-rings .lede { display: none; }
+  .chip { font-size: .68rem; padding: .35rem .5rem; }
+  .desk__body { min-height: 15rem; }
+  .hero { padding-top: 6.5rem; }
+  .panel { aspect-ratio: auto; height: 27rem; margin-top: 2rem; border-radius: 22px; }
+  .book { left: 1rem; right: 1rem; width: auto; }
+  .s-usual .tail { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rv { opacity: 1; transform: none; transition: none; }
+  .hero h1 .ph::after { animation: none; transform: scaleX(1); }
+  .panel, .panel > img, .contacts, .strip { transform: none !important; }
+  * { transition-duration: 1ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="mark" href="https://digeratiexperts.com/"><i aria-hidden="true"></i>Digerati Experts</a>
+    <nav class="nav__links" aria-label="Primary"><a href="#levels">Levels</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></nav>
+    <a class="btn btn--sm" href="https://meet.digerati-experts.com/" target="_blank" rel="noopener">Book a Fit Call</a>
+  </div>
+</header>
+
+<main>
+  <!-- 1 · HERO: the opening bookend -->
+  <section class="hero" aria-labelledby="h1">
+    <svg class="topo" aria-hidden="true" preserveAspectRatio="none"></svg>
+    <div class="wrap">
+      <h1 id="h1">Arizona IT that's <span class="ph">locked down</span>, <span class="ph">looked after</span>, and <span class="ph">priced in the open.</span></h1>
+      <div class="hero__row">
+        <p class="lede">ProActive managed IT and security from Digerati Experts in Chandler. Assessment first. Prices published.</p>
+        <a class="btn btn--lg" href="https://meet.digerati-experts.com/" target="_blank" rel="noopener">Book a Fit Call <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="panel" id="panel">
+        <img src="assets/hero-ridge.webp" width="2000" height="1116" alt="Saguaros on a ridge above an Arizona valley at dusk.">
+        <svg class="topo" aria-hidden="true" preserveAspectRatio="none"></svg>
+        <aside class="book" aria-label="What a Fit Call is">
+          <div class="book__top"><b>Digerati Experts</b><span>Zoho Bookings</span></div>
+          <h2>Fit Call</h2>
+          <p>30 minutes, booked online</p>
+          <ul><li>What you run today</li><li>What worries you</li><li>Whether a ProActive level fits</li></ul>
+          <a class="btn btn--sm" href="https://meet.digerati-experts.com/" target="_blank" rel="noopener">Book a Fit Call</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · THE USUAL WAY -->
+  <section class="scene s-usual" id="usual" aria-labelledby="usual-h">
+    <div class="scene__frame">
+      <div class="wrap grid2">
+        <div>
+          <span class="eyebrow">The usual way</span>
+          <h2 id="usual-h">Five vendors. Nobody owns it.</h2>
+          <p class="lede">The Wi-Fi drops and the phone tree starts. Everyone handles their piece. Nobody handles the whole.</p>
+          <p class="tail">So hand the whole thing to <span>one team.</span></p>
+          <div class="steps" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="contacts" aria-label="Illustration: the usual list of IT contacts">
+          <p class="sticky" aria-hidden="true">Wi-Fi pw:<br>Office2019!</p>
+          <div class="contacts__head">Who to call <span>illustration</span></div>
+          <ol>
+            <li><span class="av">ISP</span><span><b>Internet provider</b><small>"It's not on our end."</small></span><span class="q">?</span></li>
+            <li><span class="av">CV</span><span><b>Copier vendor</b><small>Also does the scanners. Maybe.</small></span><span class="q">?</span></li>
+            <li><span class="av">MS</span><span><b>Licence reseller</b><small>Sold you Microsoft 365 once.</small></span><span class="q">?</span></li>
+            <li><span class="av">BK</span><span><b>Backups</b><small>Nobody's sure who tests them.</small></span><span class="q">?</span></li>
+            <li><span class="av">N</span><span><b>Someone's nephew</b><small>Set up the Wi-Fi in 2019.</small></span><span class="q">?</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · PEAK: coverage rings -->
+  <section class="scene s-rings" id="levels" aria-labelledby="rings-h">
+    <div class="scene__frame">
+      <div class="wrap rings-grid">
+        <div>
+          <span class="eyebrow">With DE</span>
+          <h2 id="rings-h">Coverage that wraps around you.</h2>
+          <p class="lede">Four ProActive levels. Each one adds a ring to the last.</p>
+          <div class="lvl" aria-live="polite">
+            <article class="is-on"><h3>ProActive IT <small>ring 1</small></h3><p>Service Desk, endpoint foundation, identity guidance, a documented baseline.</p></article>
+            <article><h3>ProActive Office <small>ring 2</small></h3><p>Adds managed network, stronger identity, email anti-phishing, endpoint backup, an annual review.</p></article>
+            <article><h3>ProActive Business <small>ring 3</small></h3><p>Adds threat detection, awareness training, BCDR posture, compliance reporting support.</p></article>
+            <article><h3>ProActive Enterprise <small>ring 4</small></h3><p>Adds unified posture reporting, advanced compliance reporting, custom BCDR support, quarterly reviews.</p></article>
+          </div>
+          <div class="rail" role="tablist" aria-label="ProActive levels">
+            <button role="tab" data-i="0">IT</button><button role="tab" data-i="1">Office</button><button role="tab" data-i="2">Business</button><button role="tab" data-i="3">Enterprise</button>
+          </div>
+        </div>
+        <div class="orbit" aria-hidden="true">
+          <svg viewBox="-100 -100 200 200"></svg>
+          <div class="core"><div><b>Your business</b><small>Chandler to Scottsdale</small></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · PRICED IN THE OPEN -->
+  <section class="scene s-price" id="pricing" aria-labelledby="price-h">
+    <div class="scene__frame">
+      <div class="wrap grid2">
+        <div class="flow-card" aria-label="How your price gets made">
+          <h3>How your number gets made <span>3 steps</span></h3>
+          <div class="flow-steps">
+            <span class="line" aria-hidden="true"></span>
+            <ol>
+            <li><span class="n">1</span><span><b>Fit Call</b><small>30 minutes. Is DE the right fit at all?</small></span></li>
+            <li><span class="n">2</span><span><b>Assessment</b><small>What you actually run, measured, not guessed.</small></span></li>
+            <li><span class="n">3</span><span><b>Your price, confirmed</b><small>Starting from the published floor for your level.</small></span></li>
+            </ol>
+          </div>
+          <img src="assets/assessment-stone.webp" width="1400" height="781" loading="lazy" alt="">
+        </div>
+        <div>
+          <span class="eyebrow">Priced in the open</span>
+          <h2 id="price-h">The price is on the page.</h2>
+          <p class="lede">Every ProActive level has a published per-user floor and monthly minimum. Your number is confirmed after an assessment, not invented on a sales call.</p>
+          <p style="margin-top:1.4rem"><a class="textlink" href="https://digeratiexperts.com/pricing">See the pricing</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · SERVICE DESK vs HELP DESK -->
+  <section class="scene s-desk" id="support" aria-labelledby="desk-h">
+    <div class="scene__frame">
+      <div class="wrap grid2">
+        <div>
+          <span class="eyebrow">Looked after</span>
+          <h2 id="desk-h">Support, in plain words.</h2>
+          <p class="lede">Two kinds, and you'll always know which one you're using.</p>
+        </div>
+        <div class="desk">
+          <div class="seg" role="tablist" aria-label="Support type">
+            <button role="tab" id="t-sd" aria-selected="true" aria-controls="p-sd">Service Desk</button>
+            <button role="tab" id="t-hd" aria-selected="false" aria-controls="p-hd">Help Desk</button>
+          </div>
+          <div class="desk__body">
+            <div class="desk__pane is-on" role="tabpanel" id="p-sd" aria-labelledby="t-sd">
+              <span class="tagline">Included</span>
+              <h3>Service Desk</h3>
+              <p>Support that comes with every ProActive level. If it's in your bundle, it's covered.</p>
+              <ul><li>Part of ProActive IT, Office, Business, and Enterprise</li><li>No separate support bill for covered work</li></ul>
+            </div>
+            <div class="desk__pane" role="tabpanel" id="p-hd" aria-labelledby="t-hd">
+              <span class="tagline">Paid, when you need it</span>
+              <h3>Help Desk</h3>
+              <p>Paid support for work a bundle doesn't cover, and for businesses DE doesn't manage yet.</p>
+              <ul><li>Outside-the-bundle work</li><li>Not a managed client? Start here</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · WHO DE LOOKS AFTER -->
+  <section class="s-who" id="who" aria-labelledby="who-h">
+    <div class="wrap rv">
+      <span class="eyebrow">Arizona businesses</span>
+      <h2 id="who-h">Built for offices where downtime costs real money.</h2>
+      <p class="lede">Based in Chandler, serving Greater Phoenix: Phoenix, Scottsdale, Tempe, Mesa, and Gilbert.</p>
+    </div>
+    <div class="strip" id="strip">
+      <figure><img src="assets/ind-healthcare.webp" width="640" height="794" loading="lazy" alt="Folded white cloth and a steel tray on a stone slab."><figcaption>Healthcare and dental</figcaption></figure>
+      <figure><img src="assets/ind-law.webp" width="640" height="794" loading="lazy" alt="A dark stone resting on a stack of cream paper."><figcaption>Law firms</figcaption></figure>
+      <figure><img src="assets/ind-accounting.webp" width="640" height="794" loading="lazy" alt="A pen across a pale ledger card on plaster."><figcaption>Accounting</figcaption></figure>
+      <figure><img src="assets/ind-animal.webp" width="640" height="794" loading="lazy" alt="A leather leash coiled on a wooden bench."><figcaption>Animal hospitals</figcaption></figure>
+      <figure><img src="assets/ind-nonprofit.webp" width="640" height="794" loading="lazy" alt="Kraft bundles tied with magenta string on a stone."><figcaption>Nonprofits</figcaption></figure>
+      <figure><img src="assets/ind-realestate.webp" width="640" height="794" loading="lazy" alt="A basswood house model on a travertine block, with a brass key."><figcaption>Real estate</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 7 · FAQ -->
+  <section class="s-faq" id="faq" aria-labelledby="faq-h">
+    <div class="wrap faq-grid">
+      <h2 id="faq-h" class="rv">Before the call.</h2>
+      <div class="faq rv">
+        <details><summary>What happens on a Fit Call? <i aria-hidden="true"></i></summary><p>Thirty minutes on what you run today, what worries you, and whether a ProActive level makes sense for you. If DE isn't the right fit, you'll hear that too.</p></details>
+        <details><summary>Is every price public? <i aria-hidden="true"></i></summary><p>Each ProActive level's per-user floor and monthly minimum is published on the pricing page. The final figure is confirmed after an assessment of your environment.</p></details>
+        <details><summary>We already have an IT person. Is this for us? <i aria-hidden="true"></i></summary><p>It can be. Co-Managed IT lets you keep your internal IT and add DE for support, security expertise, and monitoring.</p></details>
+        <details><summary>Where does DE work? <i aria-hidden="true"></i></summary><p>DE is based in Chandler and serves Arizona and Greater Phoenix, including Phoenix, Scottsdale, Tempe, Mesa, and Gilbert.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · CLOSE: the closing bookend -->
+  <section class="s-close" id="fit-call" aria-labelledby="close-h">
+    <div class="shade" aria-hidden="true"></div>
+    <svg class="topo" aria-hidden="true" preserveAspectRatio="none"></svg>
+    <div class="wrap">
+      <h2 id="close-h" class="rv">Thirty minutes. Then you'll know.</h2>
+      <p class="lede rv">A Fit Call is a straight conversation about what you run today and whether DE should own it.</p>
+      <div class="close-cta rv" id="closecta">
+        <a class="btn btn--lg" href="https://meet.digerati-experts.com/" target="_blank" rel="noopener">Book a Fit Call <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <p class="sticky" aria-hidden="true">Bring this.<br>We'll take it from here.</p>
+      </div>
+    </div>
+    <footer class="wrap foot">
+      <span>Digerati Experts · Chandler, Arizona · Preview build, not the live site</span>
+      <nav aria-label="Footer"><a href="https://digeratiexperts.com/pricing">Pricing</a><a href="https://digeratiexperts.com/solutions">Solutions</a><a href="https://digeratiexperts.com/industries">Industries</a><a href="https://digeratiexperts.com/contact">Contact</a></nav>
+    </footer>
+  </section>
+</main>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var phone = function () { return innerWidth <= 860; };
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  /* topographic contours: the hero / close pattern, drawn once, in our genre (terrain, not doodles) */
+  function topo(svg, seed, lines) {
+    var w = 1200, h = 700, d = '';
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    for (var k = 0; k < lines; k++) {
+      var y0 = (k + .5) * h / lines, pts = [];
+      for (var x = -20; x <= w + 20; x += 24) {
+        var y = y0 + Math.sin(x * .006 + k * .5 + seed) * 26 + Math.sin(x * .017 + k * .9 + seed * 2) * 9 + Math.sin(x * .0025 + seed) * 40;
+        pts.push((pts.length ? 'L' : 'M') + x + ' ' + y.toFixed(1));
+      }
+      d += '<path d="' + pts.join('') + '"/>';
+    }
+    svg.innerHTML = d;
+  }
+  var topos = document.querySelectorAll('.topo');
+  topos.forEach(function (s, i) { topo(s, i * 1.7 + .4, i === 1 ? 14 : 22); });
+
+  /* nav folds into a pill */
+  var nav = document.getElementById('nav');
+
+  /* scenes */
+  function prog(el) { var r = el.getBoundingClientRect(), t = r.height - innerHeight; return t > 0 ? clamp(-r.top / t, 0, 1) : 0; }
+  var usual = document.getElementById('usual'), rings = document.getElementById('levels'), price = document.getElementById('pricing'), desk = document.getElementById('support');
+  var panel = document.getElementById('panel'), strip = document.getElementById('strip'), who = document.getElementById('who');
+  var contacts = [].slice.call(usual.querySelectorAll('.contacts li')), usualSteps = [].slice.call(usual.querySelectorAll('.steps span'));
+  var priceLis = [].slice.call(price.querySelectorAll('.flow-card li')), priceLine = price.querySelector('.flow-card .line');
+
+  /* coverage rings: build the SVG and the chips */
+  var orbit = rings.querySelector('.orbit'), osvg = orbit.querySelector('svg');
+  var levels = [
+    ['Service Desk', 'Endpoint foundation', 'Identity guidance', 'Documented baseline'],
+    ['Managed network', 'Stronger identity', 'Email anti-phishing', 'Endpoint backup', 'Annual review'],
+    ['Threat detection', 'Awareness training', 'BCDR posture', 'Compliance reporting'],
+    ['Unified posture', 'Advanced compliance', 'Custom BCDR', 'Quarterly reviews']
+  ];
+  var radii = [42, 60, 77, 94], svgHTML = '';
+  radii.forEach(function (r, i) {
+    svgHTML += '<circle class="ring" r="' + r + '"/><circle class="draw" data-i="' + i + '" r="' + r + '" transform="rotate(-90)" stroke-dasharray="' + (2 * Math.PI * r).toFixed(2) + '" stroke-dashoffset="' + (2 * Math.PI * r).toFixed(2) + '"/>';
+  });
+  osvg.innerHTML = svgHTML;
+  var draws = [].slice.call(osvg.querySelectorAll('.draw'));
+  var chips = [];
+  levels.forEach(function (list, li) {
+    list.forEach(function (label, j) {
+      var c = document.createElement('span'); c.className = 'chip'; c.textContent = label;
+      orbit.appendChild(c);
+      chips.push({ el: c, li: li, a0: (j / list.length) * Math.PI * 2 + li * .7, w: 0, h: 0 });
+    });
+  });
+  var lvlArts = [].slice.call(rings.querySelectorAll('.lvl article')), railBtns = [].slice.call(rings.querySelectorAll('.rail button'));
+  railBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var i = +b.dataset.i, r = rings.getBoundingClientRect(), t = r.height - innerHeight;
+      scrollTo({ top: scrollY + r.top + t * (.08 + i * .23 + .12), behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+  function measureChips() { chips.forEach(function (c) { var dot = c.el.classList.contains('is-dot'); c.el.classList.remove('is-dot'); c.w = c.el.offsetWidth; c.h = c.el.offsetHeight; if (dot) c.el.classList.add('is-dot'); }); }
+
+  /* service / help desk: scroll flips it, and so does a click */
+  var segBtns = [].slice.call(desk.querySelectorAll('.seg button')), panes = [].slice.call(desk.querySelectorAll('.desk__pane')), seg = desk.querySelector('.seg');
+  var deskManual = null;
+  function setSide(i) {
+    seg.style.setProperty('--side', i);
+    segBtns.forEach(function (b, k) { b.setAttribute('aria-selected', String(k === i)); b.tabIndex = k === i ? 0 : -1; });
+    panes.forEach(function (p, k) { p.classList.toggle('is-on', k === i); });
+  }
+  segBtns.forEach(function (b, k) { b.addEventListener('click', function () { deskManual = k; setSide(k); }); });
+
+  /* reveal on entry, once */
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -12% 0px' });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+
+  var sm = { usual: 0, rings: 0, price: 0, desk: 0 }; // smoothed progress (visual lerp, not scroll hijack)
+  var closeCta = document.getElementById('closecta'), closeSec = document.getElementById('fit-call');
+  var lastSide = -1;
+  function frame() {
+    nav.classList.toggle('is-pill', scrollY > 40);
+    var vh = innerHeight;
+    // hero panel drifts up and its photo settles
+    var hr = panel.getBoundingClientRect(), hp = clamp(1 - (hr.top + hr.height) / (vh + hr.height), 0, 1);
+    if (!reduce) panel.style.setProperty('--hp', hp.toFixed(3));
+
+    var k = reduce ? 1 : .16;
+    sm.usual += (prog(usual) - sm.usual) * k; sm.rings += (prog(rings) - sm.rings) * k;
+    sm.price += (prog(price) - sm.price) * k; sm.desk += (prog(desk) - sm.desk) * k;
+
+    // the usual way: each contact gets a question mark, then they all go grey
+    var pu = sm.usual;
+    usual.style.setProperty('--p', pu.toFixed(3));
+    contacts.forEach(function (li, i) {
+      var t = .06 + i * .1;
+      li.classList.toggle('is-q', pu > t);
+      li.classList.toggle('is-gone', pu > .68);
+    });
+    usualSteps.forEach(function (s, i) { s.style.setProperty('--f', clamp((pu - .06 - i * .1) / .1, 0, 1).toFixed(3)); });
+    usual.style.setProperty('--tail', clamp((pu - .7) / .12, 0, 1).toFixed(3));
+
+    // the rings: level i owns [.08 + .23i, .31 + .23i]
+    var pr = sm.rings, cur = clamp(Math.floor((pr - .08) / .23), 0, 3);
+    draws.forEach(function (d, i) {
+      var f = reduce ? (i <= cur ? 1 : 0) : ease(clamp((pr - .04 - i * .23) / .14, 0, 1));
+      var C = +d.getAttribute('stroke-dasharray'); d.setAttribute('stroke-dashoffset', (C * (1 - f)).toFixed(2));
+    });
+    lvlArts.forEach(function (a, i) { a.classList.toggle('is-on', i === cur); });
+    railBtns.forEach(function (b, i) {
+      b.classList.toggle('is-on', i === cur); b.setAttribute('aria-selected', String(i === cur));
+      b.style.setProperty('--f', clamp((pr - .08 - i * .23) / .23, 0, 1).toFixed(3));
+    });
+    var box = orbit.getBoundingClientRect(), S = box.width / 200, spin = reduce ? 0 : pr * 1.1;
+    chips.forEach(function (c) {
+      var show = clamp((pr - .06 - c.li * .23) / .1, 0, 1);
+      var r = radii[c.li] * S, a = c.a0 + spin * (c.li % 2 ? -1 : 1) * (1 - c.li * .12);
+      var isDot = c.li < cur;
+      if (isDot !== c.el.classList.contains('is-dot')) c.el.classList.toggle('is-dot', isDot);
+      var w = isDot ? 9 : c.w, h = isDot ? 9 : c.h;
+      // chips sit just outside their ring so they never cover the core
+      var out = isDot ? 0 : 1, x = box.width / 2 + Math.cos(a) * r + Math.cos(a) * w * .42 * out - w / 2, y = box.height / 2 + Math.sin(a) * r + Math.sin(a) * h * .7 * out - h / 2;
+      x = clamp(x, -box.left + 6, innerWidth - box.left - w - 6);
+      var fly = (1 - ease(show)) * 40;
+      c.el.style.transform = 'translate3d(' + (x + Math.cos(a) * fly).toFixed(1) + 'px,' + (y + Math.sin(a) * fly).toFixed(1) + 'px,0)';
+      c.el.style.opacity = c.li > cur ? 0 : show.toFixed(3);
+    });
+
+    // priced in the open: the three steps check off
+    var pp = sm.price;
+    priceLis.forEach(function (li, i) { li.classList.toggle('is-done', pp > .12 + i * .22); });
+    priceLine.style.setProperty('--fl', clamp((pp - .12) / .44, 0, 1).toFixed(3));
+
+    // support: flips at the midpoint unless the visitor chose
+    var side = deskManual !== null ? deskManual : (sm.desk > .5 ? 1 : 0);
+    if (side !== lastSide) { setSide(side); lastSide = side; }
+    if (sm.desk < .02 || sm.desk > .98) deskManual = null;
+
+    // who: the strip drifts sideways as it passes
+    var wr = who.getBoundingClientRect(), wp = clamp(1 - (wr.top + wr.height) / (vh + wr.height), 0, 1);
+    if (!reduce) strip.style.setProperty('--wp', ((wp - .2) * (phone() ? 1.8 : 1)).toFixed(3));
+
+    // close: the sticky note from the top of the page comes back
+    var cr = closeSec.getBoundingClientRect(), cp = clamp(1 - cr.top / vh, 0, 1);
+    closeCta.style.setProperty('--so', clamp((cp - .55) / .2, 0, 1).toFixed(3));
+    closeCta.style.setProperty('--sy', ((1 - clamp((cp - .55) / .3, 0, 1)) * 30).toFixed(1) + 'px');
+
+    requestAnimationFrame(frame);
+  }
+  function start() { measureChips(); requestAnimationFrame(frame); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
+  addEventListener('resize', measureChips);
+})();
+</script>
+</body>
+</html>

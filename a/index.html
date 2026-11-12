@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digerati Experts · Arizona IT that's locked down, looked after, and priced in the open</title>
+<meta name="description" content="Digerati Experts (DE) is an Arizona managed IT and security provider in Chandler. ProActive Ecosystem levels with published pricing. Book a 30-minute Fit Call.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23120c18'/><circle cx='16' cy='16' r='8' fill='none' stroke='%23D3126A' stroke-width='3'/></svg>">
+<link rel="preload" href="assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+@font-face { font-family: "Space Grotesk"; src: url(assets/fonts/space-grotesk.woff2) format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Geist"; src: url(assets/fonts/geist.woff2) format("woff2"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --sc-canvas:     #0f0a14;
+  --sc-surface:    #1a1228;
+  --sc-ink:        #f5eff3;
+  --sc-ink-soft:   #c8bccd;
+  --sc-accent:     #d3126a;
+  --sc-accent-ink: #ffffff;
+  --sc-font-display: "Space Grotesk", system-ui, sans-serif;
+  --sc-font-text:    "Geist", system-ui, sans-serif;
+  --sc-shadow-color: 290 40% 3%;
+
+  /* page tokens */
+  --paper: #ebe5dd;
+  --paper-ink: #1d1720;
+  --paper-soft: #574c55;
+  --paper-accent: #a30e52;       /* second stop of the one magenta, for the light ground */
+  --mag-on-dark: #ff6aa8;        /* magenta text on the dark ground (>= 4.5:1) */
+  --gut: var(--sc-gutter);
+  --sx: 0.5;                     /* the split, 0..1, written by the page script */
+  --prog: 0;
+}
+
+/* ---------- the two grounds (fixed, behind every act) ---------- */
+.page { position: relative; }
+.ground { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.ground__pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.ground__dark {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 80% at 85% 0%, color-mix(in oklab, #d3126a 16%, transparent), transparent 60%),
+    linear-gradient(180deg, #120c19 0%, #0f0a14 100%);
+}
+.ground__dark::after {
+  content: ""; position: absolute; inset: 0;
+  background: url(assets/ground-graphite.webp) center / 900px auto repeat;
+  mix-blend-mode: soft-light; opacity: .55;
+}
+.ground__photo {
+  position: absolute; inset: 0; opacity: var(--closeO, 0);
+  background: url(assets/close-saguaro.webp) 62% 50% / cover no-repeat;
+}
+.ground__photo::after { content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(15,10,20,.78) 0%, rgba(15,10,20,.35) 60%, rgba(15,10,20,.2) 100%); }
+.ground__light {
+  position: absolute; inset: 0;
+  background: url(assets/ground-stucco.webp) center / 1100px auto, var(--paper);
+  background-blend-mode: multiply;
+  clip-path: inset(0 calc(100% - var(--sx) * 100%) 0 0);
+}
+
+/* ---------- the divider is the chrome ---------- */
+.divider { position: fixed; inset: 0; z-index: var(--sc-z-chrome); pointer-events: none; }
+.divider__line {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 1px;
+  background: color-mix(in oklab, #ffffff 22%, transparent);
+  transform: translateX(calc(var(--sx) * 100vw));
+}
+.divider__fill {
+  position: absolute; inset: 0; background: var(--sc-accent);
+  transform-origin: 50% 0; transform: scaleY(var(--prog));
+}
+.divider__side {
+  position: absolute; top: 5.4rem; left: 0;
+  font: 500 var(--sc-t-xs)/1 var(--sc-font-display); letter-spacing: var(--sc-track-wide); text-transform: uppercase;
+  white-space: nowrap; transition: opacity var(--sc-d-base) var(--sc-ease-out);
+}
+.divider__side--l { color: var(--paper-soft); transform: translateX(calc(var(--sx) * 100vw - 100% - 1rem)); }
+.divider__side--r { color: var(--sc-ink-soft); transform: translateX(calc(var(--sx) * 100vw + 1rem)); }
+.divider.is-closed .divider__side { opacity: 0; }
+
+.pill {
+  position: fixed; top: 1rem; left: 0; z-index: calc(var(--sc-z-chrome) + 1);
+  display: flex; align-items: center; gap: .35rem;
+  padding: .35rem .35rem .35rem 1rem; border-radius: var(--sc-r-pill);
+  background: color-mix(in oklab, #17101f 88%, transparent);
+  box-shadow: var(--sc-e2), inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transform: translateX(var(--pillx, 50vw)) translateX(-50%);
+}
+.pill__mark { font: 600 .95rem/1 var(--sc-font-display); letter-spacing: -0.01em; color: var(--sc-ink); text-decoration: none; padding-right: .5rem; white-space: nowrap; }
+.pill__mark b { color: var(--mag-on-dark); font-weight: 600; }
+.pill .btn { font-size: .875rem; min-height: 2.5rem; padding-inline: 1rem; display: none; }
+.pill.has-cta .btn { display: inline-flex; }
+
+/* ---------- the one button ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  min-height: 3.25rem; padding: 0 1.5rem; border-radius: var(--sc-r-pill);
+  background: var(--sc-accent); color: #fff; text-decoration: none; white-space: nowrap;
+  font: 600 1rem/1 var(--sc-font-display); letter-spacing: -0.005em;
+  box-shadow: 0 6px 18px -6px rgba(211, 18, 106, .55), inset 0 1px 0 rgba(255,255,255,.22);
+  transition: background-color var(--sc-d-fast) var(--sc-ease-out), transform var(--sc-d-fast) var(--sc-ease-out);
+}
+.btn svg { width: 1rem; height: 1rem; }
+@media (hover: hover) and (pointer: fine) { .btn:hover { background: #e01874; } }
+.btn:active { transform: scale(.97); }
+.btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.btn--lg { min-height: 3.75rem; padding-inline: 2rem; font-size: 1.125rem; }
+
+/* ---------- act layout: content lives in halves ---------- */
+main { position: relative; z-index: 2; }
+.L, .R { position: absolute; z-index: var(--sc-z-copy); }
+.L { left: var(--gut); width: calc(var(--atl) * 100% - 2 * var(--gut)); color: var(--paper-ink); }
+.R { left: calc(var(--at) * 100% + var(--gut)); right: var(--gut); }
+.L .sc-body { color: var(--paper-soft); }
+.L a { color: var(--paper-accent); }
+
+.quiet { font: 500 var(--sc-t-lg)/1.35 var(--sc-font-display); letter-spacing: var(--sc-track-snug); margin: 0; text-wrap: balance; }
+
+/* act 1 */
+.hero { --at: .5; --atl: .5; }
+.hero .L { bottom: clamp(3rem, 14vh, 8rem); max-width: 26rem; }
+.hero .L .quiet { font-size: var(--sc-t-xl); }
+.hero__media { position: absolute; top: 0; right: 0; left: 50%; height: 64%; overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%); mask-image: linear-gradient(180deg, #000 55%, transparent 100%); }
+.hero__media .sc-stage__poster, .hero__media video { object-fit: cover; object-position: 50% 40%; }
+.hero .R { bottom: clamp(2.5rem, 9vh, 6rem); max-width: 40rem; }
+.hero h1 { font-size: clamp(2.2rem, 1.2rem + 2.6vw, 3.6rem); line-height: 1.0; letter-spacing: var(--sc-track-tight); margin: 0; text-wrap: balance; }
+.hero h1 em { font-style: normal; color: var(--mag-on-dark); }
+.hero .sub { margin: var(--sc-4) 0 var(--sc-6); color: var(--sc-ink-soft); font-size: var(--sc-t-base); max-width: 34rem; }
+
+.note { display: inline-block; margin: 0 0 var(--sc-6); padding: .8rem 1rem 1rem; width: 9.5rem; transform: rotate(-4deg);
+  background: #ece0ae; color: #3b3320; font: 500 1rem/1.3 var(--sc-font-display); box-shadow: 0 1px 1px rgba(50,40,10,.15), 0 14px 24px -14px rgba(50,40,10,.55); }
+/* act 2 */
+.call { --at: .5; --atl: .47; }
+.call .L { top: 50%; translate: 0 -50%; }
+.call h2 { font-size: var(--sc-t-2xl); line-height: 1.02; letter-spacing: var(--sc-track-tight); margin: 0 0 var(--sc-6); text-wrap: balance; }
+.call ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sc-3); }
+.call li { font: 500 var(--sc-t-lg)/1.3 var(--sc-font-display); color: var(--paper-soft); }
+.call .R { top: 50%; translate: 0 -50%; }
+.call .R p { font: 600 var(--sc-t-2xl)/1.04 var(--sc-font-display); letter-spacing: var(--sc-track-tight); margin: 0; text-wrap: balance; }
+.call .R p span { color: var(--mag-on-dark); }
+
+/* act 3: the handover */
+.hand { --at: .47; --atl: .38; }
+.hand__lh { position: absolute; left: var(--gut); top: 8.5rem; z-index: var(--sc-z-copy); color: var(--paper-ink); margin: 0;
+  font: 600 var(--sc-t-xl)/1.1 var(--sc-font-display); letter-spacing: var(--sc-track-snug); }
+.hand__rh { position: absolute; right: var(--gut); top: 8.5rem; z-index: var(--sc-z-copy); margin: 0; text-align: right;
+  font: 600 var(--sc-t-xl)/1.1 var(--sc-font-display); letter-spacing: var(--sc-track-snug); }
+.hand__note { position: absolute; right: var(--gut); bottom: 2rem; z-index: var(--sc-z-copy); margin: 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); text-align: right; max-width: 22rem; }
+.ring { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 3; pointer-events: none; }
+.ring svg { position: absolute; overflow: visible; max-width: none; }
+.ring .track { fill: none; stroke: color-mix(in oklab, #ffffff 12%, transparent); stroke-width: 1; }
+.ring .arc { fill: none; stroke: var(--sc-accent); stroke-width: 2; stroke-linecap: round; }
+.ring__core { position: absolute; transform: translate(-50%, -50%); text-align: center; width: 12rem; opacity: var(--coreO, 0); }
+.ring__core strong { display: block; font: 600 var(--sc-t-2xl)/1 var(--sc-font-display); letter-spacing: var(--sc-track-tight); }
+.ring__core span { display: block; margin-top: .5rem; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+.tags { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; z-index: 4; }
+.tag {
+  position: absolute; left: 0; top: 0; display: grid; will-change: transform;
+  padding: .55rem .8rem; border-radius: 10px; max-width: 15rem;
+  font: 500 .95rem/1.25 var(--sc-font-display); letter-spacing: -0.005em;
+  background: #f7f2ea; color: var(--paper-ink);
+  box-shadow: 0 1px 1px rgba(40,20,30,.12), 0 8px 20px -10px rgba(40,20,30,.45);
+  transition: background-color 260ms var(--sc-ease-out), color 260ms var(--sc-ease-out), box-shadow 260ms var(--sc-ease-out);
+}
+.tag > span { grid-area: 1 / 1; transition: opacity 220ms var(--sc-ease-out); }
+.tag .to { opacity: 0; display: flex; align-items: center; gap: .5rem; }
+.tag .to::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--sc-accent); flex: none; }
+.tag.is-landed { background: #22172e; color: var(--sc-ink); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 8px 22px -12px rgba(0,0,0,.7); }
+.tag.is-landed .from { opacity: 0; }
+.tag.is-landed .to { opacity: 1; }
+
+/* act 4: levels */
+.levels { --at: .40; --atl: .37; }
+.levels .L { top: 50%; translate: 0 -50%; max-width: 24rem; }
+.levels .L .quiet { font-size: var(--sc-t-xl); margin-bottom: var(--sc-4); }
+.levels .R { top: 50%; translate: 0 -46%; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); column-gap: var(--sc-7); row-gap: var(--sc-5); align-items: center; }
+.levels .R h2 { grid-column: 1 / -1; max-width: 18ch; }
+.levels h2 { font-size: var(--sc-t-2xl); line-height: 1.02; letter-spacing: var(--sc-track-tight); margin: 0 0 var(--sc-5); text-wrap: balance; }
+.levels figure { margin: 0; border-radius: var(--sc-r-lg); overflow: hidden; box-shadow: var(--sc-e3); }
+.levels figure img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.levels ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.levels li { padding: var(--sc-4) 0; border-top: 1px solid var(--sc-hairline); }
+.levels li:last-child { border-bottom: 1px solid var(--sc-hairline); }
+.levels li h3 { margin: 0 0 .3rem; font: 600 var(--sc-t-lg)/1.15 var(--sc-font-display); letter-spacing: var(--sc-track-snug); }
+.levels li h3 small { font: 500 var(--sc-t-xs)/1 var(--sc-font-text); color: var(--mag-on-dark); letter-spacing: .04em; margin-left: .5rem; vertical-align: middle; }
+.levels li p { margin: 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; }
+.levels .after { margin-top: var(--sc-4); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+.levels .after a { color: var(--sc-ink); }
+
+/* act 5: flow rows */
+.honest { position: relative; z-index: 2; padding-block: var(--sc-7) var(--sc-9); }
+.row { display: grid; grid-template-columns: calc(35vw - var(--gut)) 1fr; column-gap: calc(var(--gut) * 2); padding: var(--sc-9) var(--gut) 0; }
+.row:first-child { padding-top: var(--sc-6); }
+.row__l { color: var(--paper-ink); padding-top: .4rem; }
+.row__l .quiet { font-size: var(--sc-t-lg); color: var(--paper-soft); max-width: 20rem; }
+.row__r { max-width: 44rem; }
+.row__r h2 { font-size: var(--sc-t-2xl); line-height: 1.02; letter-spacing: var(--sc-track-tight); margin: 0 0 var(--sc-4); text-wrap: balance; }
+.row__r p { margin: 0 0 var(--sc-4); color: var(--sc-ink-soft); max-width: 58ch; }
+.row__r p strong { color: var(--sc-ink); font-weight: 600; }
+.row__r figure { margin: var(--sc-6) 0 0; border-radius: var(--sc-r-lg); overflow: hidden; box-shadow: var(--sc-e2); max-width: 36rem; }
+.row__r figure img { width: 100%; height: auto; }
+.textlink { color: var(--sc-ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--sc-accent); text-decoration-thickness: 2px; text-underline-offset: .3em; }
+.textlink:focus-visible { outline: 2px solid var(--mag-on-dark); outline-offset: 4px; border-radius: 2px; }
+.faq { margin: 0; padding: 0; }
+.faq details { border-top: 1px solid var(--sc-hairline); }
+.faq details:last-child { border-bottom: 1px solid var(--sc-hairline); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--sc-4);
+  padding: var(--sc-5) 0; font: 500 var(--sc-t-lg)/1.3 var(--sc-font-display); letter-spacing: var(--sc-track-snug); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: .7rem; height: .7rem; border-right: 2px solid var(--mag-on-dark); border-bottom: 2px solid var(--mag-on-dark); transform: rotate(45deg) translateY(-3px); transition: transform var(--sc-d-base) var(--sc-ease-out); }
+.faq details[open] summary::after { transform: rotate(-135deg) translateY(-3px); }
+.faq summary:focus-visible { outline: 2px solid var(--mag-on-dark); outline-offset: 4px; border-radius: 4px; }
+.faq details p { margin: 0 0 var(--sc-5); color: var(--sc-ink-soft); max-width: 58ch; }
+
+/* act 6: the collapse */
+.close { --at: 0; --atl: 0; }
+.close__inner { position: absolute; left: var(--gut); right: var(--gut); top: 50%; translate: 0 -56%; max-width: 46rem; z-index: var(--sc-z-copy); }
+.close h2 { font-size: var(--sc-t-3xl); line-height: .98; letter-spacing: var(--sc-track-tight); margin: 0 0 var(--sc-5); text-wrap: balance; }
+.close p { color: var(--sc-ink-soft); margin: 0 0 var(--sc-7); max-width: 36rem; font-size: var(--sc-t-lg); line-height: 1.5; }
+.close .wry { margin: var(--sc-5) 0 0; font: 500 var(--sc-t-sm)/1.4 var(--sc-font-display); color: var(--sc-ink-soft); }
+.close .wry span { display: inline-block; padding: .25rem .55rem; border-radius: 6px; background: #f7f2ea; color: var(--paper-ink); transform: rotate(-2.5deg); margin-left: .3rem; box-shadow: 0 6px 14px -8px rgba(0,0,0,.6); }
+.foot { position: absolute; left: var(--gut); right: var(--gut); bottom: 1.25rem; z-index: var(--sc-z-copy);
+  display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; font-size: var(--sc-t-xs); color: var(--sc-ink-soft); }
+.foot nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.foot a { color: var(--sc-ink-soft); }
+.foot a:hover { color: var(--sc-ink); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- phone: the split runs top / bottom ---------- */
+@media (max-width: 760px) {
+  .ground__light { clip-path: inset(0 0 calc(100% - var(--sx) * 100%) 0); }
+  .divider__line { top: 0; left: 0; right: 0; bottom: auto; width: auto; height: 1px; transform: translateY(calc(var(--sx) * 100svh)); }
+  .divider__fill { transform-origin: 0 50%; transform: scaleX(var(--prog)); }
+  .divider__side { top: 0; left: var(--gut); }
+  .divider__side--l { transform: translateY(calc(var(--sx) * 100svh - 100% - .6rem)); }
+  .divider__side--r { transform: translateY(calc(var(--sx) * 100svh + .6rem)); }
+  .pill { transform: translateX(-50%); left: 50%; top: .75rem; }
+  .pill .btn { padding-inline: .9rem; }
+  .L, .R { left: var(--gut); right: var(--gut); width: auto; max-width: none; }
+  .L { top: 4.6rem; }
+  .R { top: calc(var(--atm) * 100% + 2.2rem); }
+
+  .hero { --atm: .3; }
+  .hero .L { top: 5rem; bottom: auto; }
+  .hero .L .quiet { font-size: 1.2rem; }
+  .hero__media { left: 0; top: 30%; height: 34%; -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent 100%); mask-image: linear-gradient(180deg, #000 40%, transparent 100%); }
+  .hero .R { top: auto; bottom: 1.5rem; }
+  .call .R { top: calc(.52 * 100% + 2.2rem); }
+  .hero h1 { font-size: 2.15rem; }
+  .hero .sub { font-size: .98rem; margin-bottom: var(--sc-5); }
+
+  .call { --atm: .52; }
+  .call .L, .call .R { translate: none; }
+  .call .L { top: 4.4rem; }
+  .call h2 { font-size: 1.75rem; margin-bottom: var(--sc-4); }
+  .call li { font-size: 1.05rem; }
+  .call .R p { font-size: 1.75rem; }
+
+  .hand__lh { top: 4.6rem; font-size: 1.2rem; }
+  .hand__rh { display: none; }
+  .hand__note { left: var(--gut); text-align: left; bottom: 1.25rem; font-size: .8rem; }
+  .tag { font-size: .78rem; padding: .4rem .55rem; max-width: 9.5rem; border-radius: 8px; }
+  .ring__core { width: 8rem; }
+  .ring__core strong { font-size: 1.6rem; }
+  .ring__core span { font-size: .75rem; }
+
+  .levels { --atm: .26; }
+  .levels .L, .levels .R { translate: none; }
+  .levels .L { top: 4.6rem; }
+  .levels .L .quiet { font-size: 1.1rem; margin: 0; }
+  .levels .L .sc-body { display: none; }
+  .levels .R { grid-template-columns: 1fr; gap: var(--sc-4); top: calc(.26 * 100% + 2.4rem); }
+  .levels figure { display: none; }
+  .levels h2 { font-size: 1.6rem; margin-bottom: var(--sc-2); }
+  .levels li { padding: .6rem 0; }
+  .levels li h3 { font-size: 1.02rem; }
+  .levels li p { font-size: .82rem; line-height: 1.4; }
+
+  .honest { padding: 0; }
+  .row { grid-template-columns: 1fr; padding: 0; row-gap: 0; }
+  .row__l { background: url(assets/ground-stucco.webp) center / 700px auto, var(--paper); background-blend-mode: multiply; padding: var(--sc-7) var(--gut) var(--sc-6); }
+  .row__r { background: #120c19; padding: var(--sc-6) var(--gut) var(--sc-8); max-width: none; }
+  .row__r h2 { font-size: 1.85rem; }
+
+  .close h2 { font-size: 2.4rem; }
+  .close p { font-size: 1.05rem; margin-bottom: var(--sc-6); }
+  .close__inner { translate: 0 -60%; }
+  .foot { flex-direction: column; }
+  .divider.is-flow { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tag { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<!-- the two grounds: the usual way (light) and DE (dark). Fixed, behind every act. -->
+<div class="page">
+<div class="ground" aria-hidden="true" data-sc-verify-state="">
+  <div class="ground__pin">
+    <div class="ground__dark"></div>
+    <div class="ground__photo"></div>
+    <div class="ground__light"></div>
+  </div>
+</div>
+
+<!-- the divider is the chrome: both labels, and how far the argument has gone -->
+<div class="divider" aria-hidden="true">
+  <div class="divider__line"><div class="divider__fill"></div></div>
+  <span class="divider__side divider__side--l">The usual way</span>
+  <span class="divider__side divider__side--r">With DE</span>
+</div>
+
+<header class="pill" aria-label="Site">
+  <a class="pill__mark" href="https://digeratiexperts.com/">Digerati Experts <b>·</b> DE</a>
+  <a class="btn" href="https://meet.digerati-experts.com/" target="_blank" rel="noopener">Book a Fit Call</a>
+</header>
+
+<main id="top">
+
+  <!-- 1 · RECOGNITION: scrub, on the DE half only -->
+  <section class="hero" data-sc-act="scrub" data-sc-span="2.0" data-sc-dwell="0.3">
+    <div data-sc-stage>
+      <div class="hero__media" aria-hidden="true">
+        <img class="sc-stage__poster" src="assets/01-poster.webp" alt="">
+        <video data-sc-scrub data-sc-src="assets/01.mp4" data-sc-src-mobile="assets/01-m.mp4" muted playsinline></video>
+      </div>
+      <div class="L" data-sc-cue="0 0.8 0">
+        <p class="note" aria-hidden="true">Wi-Fi pw:<br>Office2019!</p>
+        <p class="quiet">Five vendors, three logins, and a password on a sticky note.</p>
+      </div>
+      <div class="R" data-sc-cue="0 0.82 0">
+        <h1 class="sc-display" data-sc-kinetic="lines">Arizona IT that's locked down, looked after, and <em>priced in the open.</em></h1>
+        <p class="sub">ProActive managed IT and security from Digerati Experts in Chandler. Assessment first. Prices published.</p>
+        <a class="btn btn--lg" href="https://meet.digerati-experts.com/" target="_blank" rel="noopener">Book a Fit Call</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · TENSION: pin + kinetic. The light side argues; the dark side waits. -->
+  <section class="call" data-sc-act="pin" data-sc-span="1.6">
+    <div data-sc-stage>
+      <div class="L">
+        <h2 class="sc-display" data-sc-cue="0.02 0.86" data-sc-kinetic="lines">The Wi-Fi drops. Who do you call?</h2>
+        <ul>
+          <li data-sc-cue="0.06 0.86">The internet provider.</li>
+          <li data-sc-cue="0.14 0.86">The copier vendor.</li>
+          <li data-sc-cue="0.22 0.86">Whoever sold you the Microsoft licences.</li>
+          <li data-sc-cue="0.30 0.86">Someone's nephew.</li>
+        </ul>
+      </div>
+      <div class="R" data-sc-cue="0.5 0.96 0.18 0.1">
+        <p>Or one team that <span>owns all of it.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · TURN, the PEAK: the handover (bespoke, driven from --sc-p) -->
+  <section class="hand" id="handover" data-sc-act="pin" data-sc-span="3.2" aria-labelledby="hand-title">
+    <div data-sc-stage data-sc-verify-state="">
+      <p class="hand__lh" data-sc-cue="0 0.42 0">Seven loose ends.</p>
+      <h2 class="hand__rh" id="hand-title" data-sc-cue="0.62 1 0.12 0.1">Handed over.</h2>
+      <div class="ring" aria-hidden="true">
+        <svg><ellipse class="track"></ellipse><ellipse class="arc"></ellipse></svg>
+        <div class="ring__core"><strong>One owner.</strong><span>Digerati Experts</span></div>
+      </div>
+      <ul class="tags" aria-label="What DE takes over">
+        <li class="tag"><span class="from">The Wi-Fi someone set up once</span><span class="to">Managed network</span></li>
+        <li class="tag"><span class="from">Passwords on a sticky note</span><span class="to">Identity and MFA</span></li>
+        <li class="tag"><span class="from">Antivirus that renews by email</span><span class="to">Endpoint protection</span></li>
+        <li class="tag"><span class="from">Backups nobody has tested</span><span class="to">Backup and recovery</span></li>
+        <li class="tag"><span class="from">The phishing email that got through</span><span class="to">Email anti-phishing</span></li>
+        <li class="tag"><span class="from">"Who do we even call?"</span><span class="to">Service Desk, included</span></li>
+        <li class="tag"><span class="from">The cyber insurance questionnaire</span><span class="to">Compliance reporting support</span></li>
+      </ul>
+      <p class="hand__note" data-sc-cue="0.7 1 0.1 0.1">What lands in the ring depends on your ProActive level.</p>
+    </div>
+  </section>
+
+  <!-- 4 · SUBSTANCE: reveal, one wipe per level -->
+  <section class="levels" data-sc-act="pin" data-sc-span="1.8" aria-labelledby="levels-title">
+    <div data-sc-stage>
+      <div class="L" data-sc-cue="0 0.9 0">
+        <p class="quiet">Buying fixes as things break.</p>
+        <p class="sc-body">Every fix is a new invoice, a new vendor, and a new login to remember.</p>
+      </div>
+      <div class="R">
+        <h2 class="sc-display" id="levels-title" data-sc-cue="0 0.92 0">Four levels. Each one adds to the last.</h2>
+        <figure data-sc-reveal="up" data-sc-reveal-at="0 0.3">
+          <img src="assets/tiers-blocks.webp" width="1600" height="893" alt="Four stone blocks of rising height on a dark surface, one for each ProActive level.">
+        </figure>
+        <div>
+          <ol>
+            <li data-sc-reveal="right" data-sc-reveal-at="0.08 0.3"><h3>ProActive IT</h3><p>Service Desk, endpoint foundation, identity guidance, a documented baseline.</p></li>
+            <li data-sc-reveal="right" data-sc-reveal-at="0.22 0.44"><h3>ProActive Office</h3><p>Adds managed network, stronger identity, email anti-phishing, endpoint backup, an annual review.</p></li>
+            <li data-sc-reveal="right" data-sc-reveal-at="0.36 0.58"><h3>ProActive Business</h3><p>Adds threat detection, awareness training, BCDR posture, compliance reporting support.</p></li>
+            <li data-sc-reveal="right" data-sc-reveal-at="0.5 0.72"><h3>ProActive Enterprise</h3><p>Adds unified posture reporting, advanced compliance reporting, custom BCDR support, quarterly reviews.</p></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · HONESTY: flow + in. The administrative part, compressed. -->
+  <section class="honest sc-section" data-sc-act="flow" id="honest">
+    <div class="row">
+      <div class="row__l" data-sc-in><p class="quiet">A price that shows up after the pitch.</p></div>
+      <div class="row__r sc-stack" data-sc-in data-sc-stagger="60">
+        <h2 class="sc-display">Priced in the open.</h2>
+        <p>Every ProActive level has a <strong>published per-user floor and monthly minimum</strong> on our pricing page. Your number is confirmed after an assessment of what you actually run.</p>
+        <p><a class="textlink" href="https://digeratiexperts.com/pricing">See the pricing</a></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row__l" data-sc-in><p class="quiet">Support that bills by the ticket.</p></div>
+      <div class="row__r sc-stack" data-sc-in data-sc-stagger="60">
+        <h2 class="sc-display">Service Desk is included.</h2>
+        <p>Every ProActive level includes <strong>Service Desk</strong> support. <strong>Help Desk</strong> is separate, paid support for work a bundle doesn't cover, and for businesses DE doesn't manage yet.</p>
+        <figure><img src="assets/assessment-stone.webp" width="1400" height="781" loading="lazy" alt="A split sandstone tile with a small magenta pin, on a pale plaster surface."></figure>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row__l" data-sc-in><p class="quiet">Questions people ask before the call.</p></div>
+      <div class="row__r" data-sc-in>
+        <h2 class="sc-display sr-only">Questions</h2>
+        <div class="faq">
+          <details><summary>What happens on a Fit Call?</summary><p>Thirty minutes on what you run today, what worries you, and whether a ProActive level makes sense for you. If DE isn't the right fit, you'll hear that too.</p></details>
+          <details><summary>Is every price public?</summary><p>Each ProActive level's per-user floor and monthly minimum is published on the pricing page. The final figure is confirmed after an assessment of your environment.</p></details>
+          <details><summary>We already have an IT person. Is this for us?</summary><p>It can be. Co-Managed IT lets you keep your internal IT and add DE for support, security expertise, and monitoring.</p></details>
+          <details><summary>Where does DE work?</summary><p>DE is based in Chandler and serves Arizona and Greater Phoenix, including Phoenix, Scottsdale, Tempe, Mesa, and Gilbert.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · COMMITMENT: the collapse. Last element on the page; cues hold. -->
+  <section class="close" id="fit-call" data-sc-act="pin" data-sc-span="1.3" aria-labelledby="close-title">
+    <div data-sc-stage>
+      <div class="close__inner">
+        <h2 class="sc-display" id="close-title" data-sc-cue="0.26" data-sc-kinetic="lines">Thirty minutes. Then you'll know.</h2>
+        <p data-sc-cue="0.32">A Fit Call is a straight conversation about what you run today and whether DE should own it.</p>
+        <div data-sc-cue="0.36">
+          <a class="btn btn--lg" href="https://meet.digerati-experts.com/" target="_blank" rel="noopener">Book a Fit Call</a>
+          <p class="wry">Bring the <span>sticky note.</span></p>
+        </div>
+      </div>
+      <footer class="foot" data-sc-cue="0.36">
+        <span>Digerati Experts · Chandler, Arizona · Preview build, not the live site</span>
+        <nav aria-label="Footer"><a href="https://digeratiexperts.com/pricing">Pricing</a><a href="https://digeratiexperts.com/solutions">Solutions</a><a href="https://digeratiexperts.com/industries">Industries</a><a href="https://digeratiexperts.com/contact">Contact</a></nav>
+      </footer>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script src="scrollcraft.js"></script>
+<script>ScrollCraft.mount(document.body);</script>
+<script>
+/* Page script. The engine is untouched; this reads layout + --sc-p and writes
+   the split, the divider, and the handover. */
+(function () {
+  var root = document.documentElement;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mqPhone = matchMedia('(max-width: 760px)');
+  var acts = {
+    hero: document.querySelector('.hero'), call: document.querySelector('.call'),
+    hand: document.querySelector('.hand'), levels: document.querySelector('.levels'),
+    honest: document.querySelector('.honest'), close: document.querySelector('.close')
+  };
+  var ground = document.querySelector('.ground');
+  var divider = document.querySelector('.divider');
+  var pill = document.querySelector('.pill');
+  var handStage = acts.hand.querySelector('[data-sc-stage]');
+  var tags = [].slice.call(acts.hand.querySelectorAll('.tag'));
+  var ring = acts.hand.querySelector('.ring');
+  var svg = ring.querySelector('svg');
+  var track = ring.querySelector('.track'), arc = ring.querySelector('.arc');
+
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function pOf(el) { return parseFloat(el.style.getPropertyValue('--sc-p')) || 0; }
+  function topOf(el) { return el.getBoundingClientRect().top + scrollY; }
+
+  // scattered starting points inside the light side, as fractions of its box
+  var scatterD = [[.06,.26,-4],[.50,.20,3],[.12,.42,2],[.56,.36,-3],[.04,.60,-2],[.50,.55,4],[.22,.78,-3]];
+  var scatterM = [[.02,.30,-4],[.50,.28,3],[.04,.50,2],[.52,.50,-3],[.02,.70,-2],[.50,.70,4],[.26,.88,-3]];
+  var sizes = [];
+  function measure() { sizes = tags.map(function (t) { return [t.offsetWidth, t.offsetHeight]; }); }
+
+  function splitAt() {
+    var vh = innerHeight, y = scrollY, phone = mqPhone.matches;
+    var h1 = topOf(acts.call), h3 = topOf(acts.hand), h4 = topOf(acts.levels), h5 = topOf(acts.honest), h6 = topOf(acts.close);
+    var pHand = pOf(acts.hand), pClose = pOf(acts.close);
+    var a = phone ? { hero: .30, call: .52, handA: .46, handB: .30, levels: .26, honest: .26 } :
+                    { hero: .50, call: .47, handA: .47, handB: .38, levels: .37, honest: .35 };
+    var s, k = function (a0, a1) { return clamp((y - a0) / (a1 - a0), 0, 1); };
+    if (y < h3 - vh) s = lerp(a.hero, a.call, ease(k(h1 - vh, h1 - vh * .1)));
+    else if (y < h4 - vh) s = lerp(lerp(a.call, a.handA, ease(k(h3 - vh, h3 - vh * .1))), a.handB, ease(clamp((pHand - .05) / .66, 0, 1)));
+    else if (y < h5) s = lerp(a.handB, a.levels, ease(k(h4 - vh, h4 - vh * .1)));
+    else s = lerp(a.levels, a.honest, k(h5, h5 + vh * 1.5));
+    if (y >= h6 - vh * .05) s = lerp(a.honest, 0, ease(clamp((pClose - .0) / .3, 0, 1)));
+    return { s: s, pClose: pClose, pHand: pHand, flow: phone && y > h5 - vh * .6 && y < h6 - vh * .3 };
+  }
+
+  function layoutHand(split, p) {
+    var r = handStage.getBoundingClientRect(), W = r.width, H = r.height, phone = mqPhone.matches;
+    // ring lives on the DE side, recentred live as the split moves
+    var cx, cy, rad, rx, ry;
+    if (phone) {
+      var top = split * H;
+      cx = W / 2; cy = top + (H - top) * .5; rx = Math.max(60, W / 2 - 88); ry = Math.min((H - top) * .36, 230); rad = Math.min(rx, ry);
+    } else {
+      var left = split * W;
+      cx = left + (W - left) * .5; cy = H * .58; rad = Math.min((W - left) * .28, H * .27); rx = rad * 1.3; ry = rad;
+    }
+    ring.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+    ring.querySelector('.ring__core').style.top = (phone ? -ry * 0.09 : 0) + 'px';
+    var R2 = Math.ceil(Math.max(rx, ry) + 4);
+    svg.setAttribute('width', 2 * R2); svg.setAttribute('height', 2 * R2);
+    svg.setAttribute('viewBox', (-R2) + ' ' + (-R2) + ' ' + (2 * R2) + ' ' + (2 * R2));
+    svg.style.left = (-R2) + 'px'; svg.style.top = (-R2) + 'px';
+    track.setAttribute('rx', rx); track.setAttribute('ry', ry);
+    arc.setAttribute('rx', ry); arc.setAttribute('ry', rx); /* drawn rotated -90deg so the stroke starts at the top */
+    var C = Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)));
+    arc.setAttribute('stroke-dasharray', C);
+    arc.setAttribute('transform', 'rotate(-90)');
+    var lightW = phone ? W : split * W, lightH = phone ? split * H : H;
+    var sc = phone ? scatterM : scatterD;
+    var landed = 0, orbit = reduce ? 0 : Math.max(0, p - .74) * 0.9;
+    tags.forEach(function (t, i) {
+      var start = .06 + i * .075, t1 = reduce ? (p > .02 ? 1 : 0) : clamp((p - start) / .2, 0, 1), e = ease(t1);
+      var w = sizes[i][0], h = sizes[i][1];
+      var sx0 = sc[i][0] * (phone ? W : W * .47), sy0 = sc[i][1] * (phone ? H * .46 : H);
+      if (!phone) sx0 = Math.min(sx0, W * .47 - w - 24);
+      sx0 = Math.max(sx0, 16);
+      var tx, ty;
+      if (phone) {
+        // zigzag down the ring so chips never stack on a narrow screen
+        var fr = [-1.0, -0.74, -0.48, 0.30, 0.56, 0.82, 1.06][i], dy = ry * fr, side = (i % 2 ? 1 : -1);
+        var dx = rx * Math.sqrt(Math.max(0, 1 - (dy / ry) * (dy / ry))) * side;
+        if (i === 0 || i === tags.length - 1) dx = 0;
+        dx *= 0.9;
+        tx = clamp(cx + dx - w / 2, 10, W - w - 10); ty = cy + dy - h / 2;
+      } else {
+        var ang = -Math.PI / 2 + i * (2 * Math.PI / tags.length) + orbit;
+        tx = cx + Math.cos(ang) * rx - w / 2; ty = cy + Math.sin(ang) * ry - h / 2;
+      }
+      var x = lerp(sx0, tx, e), y = lerp(sy0, ty, e) - Math.sin(Math.PI * e) * (phone ? 40 : 90);
+      var rot = lerp(sc[i][2], 0, e);
+      t.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + rot.toFixed(2) + 'deg)';
+      var isL = t1 > .86;
+      if (isL) landed++;
+      if (isL !== t.classList.contains('is-landed')) t.classList.toggle('is-landed', isL);
+    });
+    var arcT = reduce ? 1 : clamp((p - .1) / .62, 0, 1);
+    arc.setAttribute('stroke-dashoffset', (C * (1 - arcT)).toFixed(1));
+    ring.style.setProperty('--coreO', clamp((p - .7) / .08, 0, 1).toFixed(3));
+    return landed;
+  }
+
+  var lastSig = '';
+  function frame() {
+    var st = splitAt();
+    root.style.setProperty('--sx', st.s.toFixed(4));
+    var max = document.documentElement.scrollHeight - innerHeight;
+    root.style.setProperty('--prog', clamp(scrollY / max, 0, 1).toFixed(4));
+    root.style.setProperty('--closeO', clamp((st.pClose - .05) / .35, 0, 1).toFixed(3));
+    divider.classList.toggle('is-closed', st.s < .06);
+    divider.classList.toggle('is-flow', st.flow);
+    pill.classList.toggle('has-cta', scrollY > innerHeight * .5);
+    // the pill rides the divider on desktop, clamped so it never leaves the screen
+    if (!mqPhone.matches) {
+      var pw = pill.offsetWidth, x = clamp(st.s * innerWidth, pw / 2 + 16, innerWidth - pw / 2 - 16);
+      pill.style.setProperty('--pillx', x.toFixed(1) + 'px');
+    }
+    var landed = layoutHand(st.s, st.pHand);
+    var sig = st.s.toFixed(3) + '|' + landed + '|' + st.pHand.toFixed(2);
+    if (sig !== lastSig) {
+      ground.setAttribute('data-sc-verify-state', st.s.toFixed(3) + '|' + (+getComputedStyle(root).getPropertyValue('--closeO') || 0).toFixed(2));
+      handStage.setAttribute('data-sc-verify-state', landed + '|' + st.pHand.toFixed(2));
+      lastSig = sig;
+    }
+    requestAnimationFrame(frame);
+  }
+  function start() { measure(); requestAnimationFrame(frame); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
+  addEventListener('resize', measure);
+})();
+</script>
+</body>
+</html>
