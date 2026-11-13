@@ -40,7 +40,7 @@
      or the pause button. Tabs + arrow keys + swipe. Reduced motion: manual only, no animation. */
   var usual = $('#usual');
   (function deck() {
-    var deckEl = $('#deck'), live = $('#deckLive'), cards = $$('.callcard', deckEl), tabs = $$('.dots [role=tab]', usual), says = $$('.usual__say', usual), pp = $('#deckPP');
+    var deckEl = $('#deck'), live = $('#deckLive'), cards = $$('.callcard', deckEl), tabs = $$('.dots [role=tab]', usual), says = $$('[data-say]', usual), pp = $('#deckPP');
     var N = cards.length, DWELL = 6500, LEAVE = 700, cur = 0, timer = 0, startedAt = 0, remaining = DWELL;
     var hover = false, focus = false, offscreen = true, userPaused = !!reduce, leaveT = [];
     usual.style.setProperty('--dwell', DWELL + 'ms');
@@ -54,7 +54,7 @@
         } else if (k === cur) { c.classList.remove('is-leaving'); }
       });
       tabs.forEach(function (t, k) { var on = k === cur; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; t.classList.toggle('is-seen', k < cur); });
-      says.forEach(function (p, k) { p.classList.toggle('is-on', k === cur); });
+      says.forEach(function (p) { p.classList.toggle('is-on', +p.getAttribute('data-say') === cur); });
     }
     function paused() { return userPaused || hover || focus || offscreen || document.hidden; }
     function schedule() {
@@ -108,6 +108,10 @@
     deckEl.addEventListener('pointercancel', function () { st = 0; });
     layout(); schedule();
     window.__deckGo = function (i) { go(i, true); };
+    try {
+      var want = sessionStorage.getItem('de-deck');
+      if (want != null) { sessionStorage.removeItem('de-deck'); go(+want, true); }
+    } catch (e) {}
     window.__deck = function () { return { cur: cur, paused: paused(), hover: hover, focus: focus, offscreen: offscreen, userPaused: userPaused }; };
   })();
 

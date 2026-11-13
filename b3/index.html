@@ -57,8 +57,8 @@
   <div class="usual__frame">
     <div class="wrap split">
       <div class="split__copy">
-        <p class="kicker kicker--warm">The usual way</p>
-        <h2 id="usual-h">Five vendors. Nobody owns&nbsp;it.</h2>
+        <p class="kicker usual__swap"><span class="usual__hl kicker--warm is-on" data-say="0">The usual way</span><span class="usual__hl kicker--fix" data-say="1">The fix &middot; ProActive Ecosystem</span><span class="usual__hl kicker--fix" data-say="2">The plan &middot; vCIO &amp; compliance</span></p>
+        <h2 id="usual-h" class="usual__swap"><span class="usual__hl is-on" data-say="0">Five vendors. Nobody owns&nbsp;it.</span><span class="usual__hl" data-say="1">First login to last. One team owns&nbsp;it.</span><span class="usual__hl" data-say="2">Compliance mapped. Budget planned. No&nbsp;surprises.</span></h2>
         <div class="usual__says">
           <p class="lede usual__say is-on" data-say="0">The Wi-Fi drops and the phone tree starts. Everyone handles their piece. Nobody handles the whole.</p>
           <p class="lede usual__say" data-say="1">So hand the whole thing to <em>one team.</em> Digerati&nbsp;Experts owns every piece, so nobody points at somebody else.</p>
@@ -168,7 +168,7 @@
   </div>
 </section>
 
-<!-- 3c · START FROM A SITUATION (light) · B3: situation picker + "Describe your own" Smart match -->
+<!-- 3c · START FROM A SITUATION (light) · B3: situation picker; last card always links to describe/ -->
 <section class="sits light sheet" id="situations" aria-labelledby="sits-h">
   <div class="wrap">
     <div class="sits__head rv">
@@ -178,22 +178,6 @@
     <div class="sits__filters" id="sitFilters" role="group" aria-label="Filter situations"></div>
     <p class="sits__urgent" id="sitUrgent" hidden><b>Happening right now?</b> Don’t wait for a Fit Call. Open DE Desk on digeratiexperts.com and say so.</p>
     <ul class="sits__grid" id="sitGrid" aria-label="Situations"></ul>
-    <div class="own" id="sitOwn" hidden>
-      <form class="own__form" id="sitForm" novalidate>
-        <div class="own__top">
-          <label for="sitText" class="own__label">Tell us what’s going on, in your words.</label>
-          <button type="button" class="own__x" id="sitClose" aria-label="Close describe your own">×</button>
-        </div>
-        <textarea id="sitText" rows="3" maxlength="1000" placeholder="e.g. Two people start Monday and we still don’t have laptops. Or: our insurer sent a security questionnaire and we don’t know the answers." aria-describedby="sitHint"></textarea>
-        <p class="own__ex" id="sitHint"><span>Try:</span>
-          <button type="button" class="sit__ex">“Someone clicked a link in a fake invoice email”</button>
-          <button type="button" class="sit__ex">“We’re moving to a bigger office in March”</button>
-          <button type="button" class="sit__ex">“A client wants our HIPAA policies”</button>
-        </p>
-        <div class="own__row"><button type="submit" class="btn">Smart match</button><span class="own__priv">Matched in your browser. Nothing is sent.</span></div>
-      </form>
-      <div class="own__out" id="sitResult" aria-live="polite" hidden></div>
-    </div>
   </div>
 </section>
 

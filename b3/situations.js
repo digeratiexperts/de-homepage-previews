@@ -1,4 +1,4 @@
-/* Digerati Experts · preview B3 · "Start from a situation" + "Describe your own" (Smart match)
+/* Digerati Experts · preview B3 · "Start from a situation" + describe/ page (Smart match)
  *
  * Pluggable matcher. One interface:   matchSituation(text) -> Promise<{ cards, services, summary, urgent, source }>
  *   cards    : up to 3 situation ids from SITUATIONS (the only cards that exist on this page)
@@ -214,71 +214,80 @@
   window.DE_SITUATIONS = { matchSituation: matchSituation, localMatch: localMatch, deDeskMatch: deDeskMatch, catalog: { situations: SITUATIONS, services: SERVICES, version: CATALOG_VERSION } };
 
   /* ---------- UI ---------- */
-  var sec = $('#situations'); if (!sec) return;
-  var grid = $('#sitGrid', sec), filters = $('#sitFilters', sec), panel = $('#sitOwn', sec), form = $('#sitForm', sec), ta = $('#sitText', sec), out = $('#sitResult', sec), urgentLine = $('#sitUrgent', sec);
-  var filter = 'all';
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function groupLabel(g) { for (var i = 0; i < GROUPS.length; i++) if (GROUPS[i].id === g) return GROUPS[i].label; return ''; }
 
-  GROUPS.forEach(function (g) {
-    var b = document.createElement('button'); b.type = 'button'; b.className = 'sitf'; b.textContent = g.label; b.dataset.g = g.id;
-    b.setAttribute('aria-pressed', String(g.id === 'all'));
-    b.addEventListener('click', function () { setFilter(g.id); });
-    filters.appendChild(b);
-  });
-  SITUATIONS.forEach(function (s) {
-    var li = document.createElement('li'); li.className = 'sit'; li.id = 'sit-' + s.id; li.dataset.g = s.group;
-    li.innerHTML = '<button type="button" class="sit__btn" aria-describedby="sit-' + s.id + '-p">' +
-      '<span class="sit__g sit__g--' + s.group + '">' + esc(groupLabel(s.group)) + '</span>' +
-      '<b class="sit__t">' + esc(s.title) + '</b>' +
-      '<span class="sit__p" id="sit-' + s.id + '-p">' + esc(s.pressure) + '</span>' +
-      '<span class="sit__svc"><span class="sr-only">Starts with: </span>' + s.services.map(function (v) { return '<i>' + esc(SERVICES[v].name) + '</i>'; }).join('') + '</span>' +
-      '<span class="sit__match" aria-hidden="true">Closest match</span></button>';
-    $('button', li).addEventListener('click', function () { pick(s.id); });
-    grid.appendChild(li);
-  });
-  var own = document.createElement('li'); own.className = 'sit sit--own'; own.dataset.g = 'any';
-  own.innerHTML = '<button type="button" class="sit__btn" aria-expanded="false" aria-controls="sitOwn">' +
-    '<span class="sit__g sit__g--own"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.6 2.6l2.8 2.8-7.7 7.7-3.4.6.6-3.4z"/><path d="M9.2 4l2.8 2.8"/></svg>None of these?</span>' +
-    '<b class="sit__t">Describe your own</b><span class="sit__p">Say it in your words. Smart match finds the closest situation and what Digerati&nbsp;Experts would look at.</span>' +
-    '<span class="sit__go" aria-hidden="true">Write it down \u2192</span></button>';
-  grid.appendChild(own);
-  var ownBtn = $('button', own);
-  ownBtn.addEventListener('click', function () { openOwn(true); });
+  /* nav pill on the describe page (the homepage already does this in b3.js) */
+  (function () {
+    var nav = $('#nav'); if (!nav) return;
+    function sync() { nav.classList.toggle('is-pill', scrollY > 40); }
+    addEventListener('scroll', sync, { passive: true });
+    sync();
+  })();
+
+  var grid = $('#sitGrid'), filters = $('#sitFilters'), urgentLine = $('#sitUrgent');
+  var form = $('#sitForm'), ta = $('#sitText'), out = $('#sitResult');
+  var onHome = !!grid;
+  var root = onHome ? '' : '../';
+  var filter = 'all';
+
+  if (grid && filters) {
+    GROUPS.forEach(function (g) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'sitf'; b.textContent = g.label; b.dataset.g = g.id;
+      b.setAttribute('aria-pressed', String(g.id === 'all'));
+      b.addEventListener('click', function () { setFilter(g.id); });
+      filters.appendChild(b);
+    });
+    SITUATIONS.forEach(function (s) {
+      var li = document.createElement('li'); li.className = 'sit'; li.id = 'sit-' + s.id; li.dataset.g = s.group;
+      li.innerHTML = '<a class="sit__btn" href="describe/?s=' + encodeURIComponent(s.id) + '">' +
+        '<span class="sit__g sit__g--' + s.group + '">' + esc(groupLabel(s.group)) + '</span>' +
+        '<b class="sit__t">' + esc(s.title) + '</b>' +
+        '<span class="sit__p">' + esc(s.pressure) + '</span>' +
+        '<span class="sit__svc"><span class="sr-only">Starts with: </span>' + s.services.map(function (v) { return '<i>' + esc(SERVICES[v].name) + '</i>'; }).join('') + '</span>' +
+        '</a>';
+      grid.appendChild(li);
+    });
+    var own = document.createElement('li');
+    own.className = 'sit sit--own';
+    own.dataset.g = 'any';
+    own.id = 'sit-own';
+    own.innerHTML = '<a class="sit__btn" href="describe/">' +
+      '<span class="sit__g sit__g--own">Your situation</span>' +
+      '<b class="sit__t">Describe your own</b>' +
+      '<span class="sit__p">Say it in your words. Smart match finds the closest situation and what Digerati&nbsp;Experts would look at.</span>' +
+      '<span class="sit__svc"><i>Smart match</i><i>A plan you can take</i></span>' +
+      '</a>';
+    grid.appendChild(own);
+    setFilter('all');
+  }
 
   function setFilter(g) {
+    if (!grid) return;
     filter = g;
     $$('.sitf', filters).forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.g === g)); });
     $$('.sit', grid).forEach(function (li) { li.hidden = !(g === 'all' || li.dataset.g === g || li.dataset.g === 'any'); });
-    urgentLine.hidden = g !== 'now';
+    if (urgentLine) urgentLine.hidden = g !== 'now';
   }
-  function openOwn(focus) {
-    panel.hidden = false; ownBtn.setAttribute('aria-expanded', 'true'); own.classList.add('is-open');
-    if (focus) { ta.focus({ preventScroll: true }); panel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' }); }
-  }
-  $('#sitClose', sec).addEventListener('click', function () { panel.hidden = true; ownBtn.setAttribute('aria-expanded', 'false'); own.classList.remove('is-open'); ownBtn.focus(); });
-  $$('.sit__ex', sec).forEach(function (b) { b.addEventListener('click', function () { ta.value = b.textContent.replace(/^\u201c|\u201d$/g, ''); ta.focus(); }); });
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var t = ta.value.trim();
-    if (t.replace(/[^a-z]/gi, '').length < 4) { renderMore(); return; }
-    matchSituation(t).then(function (r) { if (!r.confident) renderMore(); else render(r, t, 'typed'); });
-  });
-  function pick(id) { // choosing a card gives the same read-out, from that card
-    var s = SIT[id];
-    openOwn(false);
-    render({ cards: [id], services: s.services.slice(), summary: '', urgent: s.group === 'now', source: 'card' }, s.title, 'picked');
-    panel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+  if (form && ta && out) {
+    $$('.sit__ex').forEach(function (b) { b.addEventListener('click', function () { ta.value = b.textContent.replace(/^\u201c|\u201d$/g, ''); ta.focus(); }); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var t = ta.value.trim();
+      if (t.replace(/[^a-z]/gi, '').length < 4) { renderMore(); return; }
+      matchSituation(t).then(function (r) { if (!r.confident) renderMore(); else render(r, t, 'typed'); });
+    });
+    var pre = '';
+    try { pre = new URLSearchParams(location.search).get('s') || ''; } catch (e) { pre = ''; }
+    if (pre && SIT[pre]) {
+      var s0 = SIT[pre];
+      render({ cards: [pre], services: s0.services.slice(), summary: '', urgent: s0.group === 'now', source: 'card' }, s0.title, 'picked');
+    }
   }
-  function clearMarks() {
-    $$('.sit.is-match', grid).forEach(function (li) { li.classList.remove('is-match'); });
-    $$('.is-yours').forEach(function (n) { n.classList.remove('is-yours'); });
-    document.body.classList.remove('has-match');
-  }
+
   function renderMore() {
-    clearMarks(); setFilter('all');
-    out.innerHTML = '<div class="res res--more"><p class="res__read"><b>Tell us a bit more.</b> A sentence or two about what\u2019s happening (who it affects, what broke or what\u2019s changing) is plenty. Or pick the closest situation above.</p></div>';
+    out.innerHTML = '<div class="res res--more"><p class="res__read"><b>Tell us a bit more.</b> A sentence or two about what\u2019s happening (who it affects, what broke or what\u2019s changing) is plenty. Or <a href="' + root + '#situations">pick a situation</a>.</p></div>';
     out.hidden = false;
   }
   function plan(r, text) {
@@ -292,22 +301,15 @@
     return lines.join('\n');
   }
   function render(r, text, how) {
-    clearMarks();
-    // the page below now leans toward this visitor: matching cards, deck rows, and ring chips are marked
-    r.cards.forEach(function (c) { var li = $('#sit-' + c); if (li) li.classList.add('is-match'); });
-    var names = r.services.map(function (v) { return SERVICES[v].name; });
-    $$('.callcard__list .vn b, .chip').forEach(function (n) { if (names.indexOf(n.textContent.trim().replace(/&amp;/g, '&')) > -1) (n.closest('li') || n).classList.add('is-yours'); });
-    document.body.classList.add('has-match');
-    if (filter !== 'all' && r.cards.some(function (c) { return SIT[c].group !== filter; })) setFilter('all');
     var summary = r.summary || (how === 'picked' ? SIT[r.cards[0]].pressure : '');
-    var seed = 'From the homepage: ' + text + (r.cards.length ? ' (closest: ' + SIT[r.cards[0]].title + ')' : '');
+    var seed = 'From the site: ' + text + (r.cards.length ? ' (closest: ' + SIT[r.cards[0]].title + ')' : '');
     out.innerHTML =
       '<div class="res">' +
       '<p class="res__k">' + (how === 'picked' ? 'You picked' : 'Smart match') + '</p>' +
       (summary ? '<p class="res__read">' + esc(summary) + '</p>' : '') +
       (r.urgent ? '<p class="res__urgent"><b>Happening right now?</b> Don\u2019t wait for a Fit Call. Open DE Desk and say so.</p>' : '') +
-      (how === 'typed' && r.cards.length ? '<div class="res__blk"><h4>Closest situation' + (r.cards.length > 1 ? 's' : '') + '</h4><ul class="res__cards">' + r.cards.map(function (c) { return '<li><a href="#sit-' + c + '" data-to="' + c + '">' + esc(SIT[c].title) + '</a></li>'; }).join('') + '</ul></div>' : '') +
-      '<div class="res__blk"><h4>What Digerati&nbsp;Experts would look at</h4><ul class="res__svc">' + r.services.map(function (v) { var s = SERVICES[v]; return '<li><a href="' + s.where + '" data-svc="' + v + '"><b>' + esc(s.name) + '</b><small>' + esc(s.line) + ' <em>' + esc(s.at) + '</em></small></a></li>'; }).join('') + '</ul></div>' +
+      (how === 'typed' && r.cards.length ? '<div class="res__blk"><h4>Closest situation' + (r.cards.length > 1 ? 's' : '') + '</h4><ul class="res__cards">' + r.cards.map(function (c) { return '<li><a href="' + root + '#sit-' + c + '">' + esc(SIT[c].title) + '</a></li>'; }).join('') + '</ul></div>' : '') +
+      '<div class="res__blk"><h4>What Digerati&nbsp;Experts would look at</h4><ul class="res__svc">' + r.services.map(function (v) { var s = SERVICES[v]; return '<li><a href="' + root + s.where + '" data-svc="' + v + '"><b>' + esc(s.name) + '</b><small>' + esc(s.line) + ' <em>' + esc(s.at) + '</em></small></a></li>'; }).join('') + '</ul></div>' +
       '<div class="res__blk"><h4>What happens next</h4><ol class="res__next"><li><b>Fit Call.</b> 30 minutes on exactly this, and whether DE is the right fit.</li><li><b>Assessment.</b> What you actually run, measured, not guessed.</li><li><b>Your price, confirmed.</b> From the published floor for your level.</li></ol></div>' +
       '<div class="res__acts">' +
         '<a class="btn" href="' + BOOK + '" target="_blank" rel="noopener">Book a Fit Call <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg></a>' +
@@ -319,8 +321,15 @@
       '</div>';
     out.hidden = false;
     var note = $('[data-note]', out);
-    $$('[data-to]', out).forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); var li = $('#sit-' + a.dataset.to); li.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); $('button', li).focus({ preventScroll: true }); }); });
-    $$('[data-svc]', out).forEach(function (a) { a.addEventListener('click', function () { var s = SERVICES[a.dataset.svc]; if (s.card !== undefined && window.__deckGo) window.__deckGo(s.card); }); });
+    $$('[data-svc]', out).forEach(function (a) {
+      a.addEventListener('click', function () {
+        var s = SERVICES[a.dataset.svc];
+        if (s.card !== undefined) {
+          try { sessionStorage.setItem('de-deck', String(s.card)); } catch (err) {}
+          if (window.__deckGo) window.__deckGo(s.card);
+        }
+      });
+    });
     $('[data-act=copy]', out).addEventListener('click', function () {
       var txt = plan(r, text);
       var done = function () { note.hidden = false; note.textContent = 'Copied. Paste it into an email to whoever signs off on IT.'; };
@@ -338,5 +347,4 @@
     });
   }
   function fallbackCopy(t) { var x = document.createElement('textarea'); x.value = t; x.setAttribute('readonly', ''); x.style.position = 'fixed'; x.style.opacity = '0'; document.body.appendChild(x); x.select(); try { document.execCommand('copy'); } catch (e) {} x.remove(); }
-  setFilter('all');
 })();
