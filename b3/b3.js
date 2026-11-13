@@ -10,6 +10,9 @@
   function ease(t) { return 1 - Math.pow(1 - t, 3); }
   function easeIO(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
   var TAU = Math.PI * 2, NS = 'http://www.w3.org/2000/svg';
+  /* patience pass: only touch the DOM when a value actually changes */
+  function setA(e, k, v) { var c = e.__c || (e.__c = {}); if (c[k] !== v) { c[k] = v; e.setAttribute(k, v); } }
+  function setS(e, k, v) { var c = e.__s || (e.__s = {}); if (c[k] !== v) { c[k] = v; e.style[k] = v; } }
   function el(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
   /* scene progress: 0 when the section top meets the viewport top, 1 when its bottom meets the viewport bottom */
@@ -29,7 +32,7 @@
   var heroArcs = halo($('.halo--open'), true), closeArcs = halo($('.halo--closed'), false);
   function setArcs(arcs, f) { arcs.forEach(function (a, i) { var k = clamp(f * 1.25 - i * .08, 0, 1); a.el.setAttribute('stroke-dashoffset', (a.C * (1 - a.target * ease(k))).toFixed(2)); }); }
   // hero arcs draw once on load (time-based, like the underline)
-  if (reduce) setArcs(heroArcs, 1); else { var t0 = performance.now(); requestAnimationFrame(function tick(t) { var f = clamp((t - t0 - 300) / 1600, 0, 1); setArcs(heroArcs, f); if (f < 1) requestAnimationFrame(tick); }); }
+  if (reduce) setArcs(heroArcs, 1); else { var t0 = performance.now(); requestAnimationFrame(function tick(t) { var f = clamp((t - t0 - 100) / 700, 0, 1); setArcs(heroArcs, f); if (f < 1) requestAnimationFrame(tick); }); }
 
   /* ---------- nav ---------- */
   var nav = $('#nav');
@@ -67,7 +70,9 @@
     }
     function hold() { if (timer) { remaining = Math.max(400, remaining - (performance.now() - startedAt)); } schedule(); }
     function restartDash() { // restart the dwell fill on the active dash
-      var i = tabs[cur] && $('.dots__bar i', tabs[cur]); if (!i) return; i.style.animation = 'none'; void i.offsetWidth; i.style.animation = '';
+      var i = tabs[cur] && $('.dots__bar i', tabs[cur]); if (!i) return;
+      // patience pass: restart via the Animations API instead of a forced reflow (was the slowest part of a tab tap)
+      requestAnimationFrame(function () { if (i.getAnimations) i.getAnimations().forEach(function (an) { an.currentTime = 0; }); });
     }
     function go(n, byUser) {
       var prev = cur; cur = (n + N) % N; remaining = DWELL;
@@ -296,18 +301,18 @@
         var a = c.a0 + spin, ca = Math.cos(a), sa = Math.sin(a);
         var rr = R[c.li], cr = CHIP_R[c.li] + (1 - show) * 14 - gone * (CHIP_R[c.li] - rr);
         var ax = ca * rr, ay = sa * rr;
-        c.dot.setAttribute('cx', ax.toFixed(2)); c.dot.setAttribute('cy', ay.toFixed(2));
-        c.dot.setAttribute('opacity', show.toFixed(3));
+        setA(c.dot, 'cx', ax.toFixed(2)); setA(c.dot, 'cy', ay.toFixed(2));
+        setA(c.dot, 'opacity', show.toFixed(3));
         var t1 = rr + 2.2, t2 = Math.max(t1, CHIP_R[c.li] - 4);
-        c.tick.setAttribute('x1', (ca * t1).toFixed(2)); c.tick.setAttribute('y1', (sa * t1).toFixed(2));
-        c.tick.setAttribute('x2', (ca * t2).toFixed(2)); c.tick.setAttribute('y2', (sa * t2).toFixed(2));
-        c.tick.setAttribute('opacity', (v * .9).toFixed(3));
+        setA(c.tick, 'x1', (ca * t1).toFixed(2)); setA(c.tick, 'y1', (sa * t1).toFixed(2));
+        setA(c.tick, 'x2', (ca * t2).toFixed(2)); setA(c.tick, 'y2', (sa * t2).toFixed(2));
+        setA(c.tick, 'opacity', (v * .9).toFixed(3));
         var x = W / 2 + ca * cr * S - c.w / 2, yy = W / 2 + sa * cr * S - c.h / 2;
         x = clamp(x, -box.left + 8, vw - box.left - c.w - 8);
         var sc = .86 + .14 * v;
-        c.el.style.opacity = v.toFixed(3);
-        c.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + yy.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')';
-        c.el.style.visibility = v < .01 ? 'hidden' : 'visible';
+        setS(c.el, 'opacity', v.toFixed(3));
+        setS(c.el, 'transform', 'translate3d(' + x.toFixed(1) + 'px,' + yy.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')');
+        setS(c.el, 'visibility', v < .01 ? 'hidden' : 'visible');
       });
     }
     lastW = vw; lastH = vh;
